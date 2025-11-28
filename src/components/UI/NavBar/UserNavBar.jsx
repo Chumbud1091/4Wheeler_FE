@@ -1,148 +1,140 @@
-import React, { useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import { AiOutlineSearch, AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
-import logo from "../../../../public/logo.svg";
-import { menuLinks } from "../../../../data.jsx";
-import MultiLevelMenu from "./MultiLevelMenu.jsx";  
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { FaBars, FaTimes } from "react-icons/fa";
+import logo from "../../assets/logocar.png";
+import { navbarStyles as styles } from "../../../assets/dummyStyles";
 
-export default function UserNavbar() {
-    const [mobileOpen, setMobileOpen] = useState(false);
-    const [q, setQ] = useState("");
-    const navigate = useNavigate();
+import NavLinks from "./NavLinks";
+import UserActions from "./UserActions";
+import MobileMenu from "./MobileMenu";
+import { useAuth } from "../../../hooks/useAuth";
 
-    function submitSearch(e) {
-        e.preventDefault();
-        const query = q.trim();
-        if (query) navigate(`/search?q=${encodeURIComponent(query)}`);
-        else navigate("/search");
-        setMobileOpen(false);
-    }
+const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const menuRef = useRef(null);
+  const buttonRef = useRef(null);
 
-    return (
-        <header className="w-full shadow-xs bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-                <div className="flex items-center space-x-6">
-                    <Link to="/" className="flex items-center space-x-3">
-                        <img src={logo} alt="4 Wheeler Logo" className="h-8" />
-                    </Link>
+  const { currentUser, isLoggedIn, logout } = useAuth();
 
-                    <nav className="hidden md:block">
-                        <ul className="flex space-x-6 text-sm font-semibold">
-                            {menuLinks.map((m) => (
-                                <li key={m.path}>
-                                    <NavLink
-                                        to={m.path}
-                                        className={({ isActive }) =>
-                                            `hover:text-blue-600 cursor-pointer ${isActive ? "text-blue-600" : "text-gray-700"}`
-                                        }
-                                    >
-                                        {(m.name === "Old Cars" || m.name === "New Cars")? <MultiLevelMenu name={m.name}/> : m.name}
-                                    </NavLink>
-                                </li>
-                            ))}
-                        </ul>
-                    </nav>
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        isOpen &&
+        menuRef.current &&
+        buttonRef.current &&
+        !menuRef.current.contains(event.target) &&
+        !buttonRef.current.contains(event.target)
+      ) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isOpen]);
+
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (e.key === "Escape" && isOpen) setIsOpen(false);
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [isOpen]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) setIsOpen(false);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/", { replace: true });
+  };
+
+  return (
+    <nav
+      className={`${styles.nav.base} ${
+        scrolled ? styles.nav.scrolled : styles.nav.notScrolled
+      }`}
+      aria-label="Main navigation"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-center">
+          <div
+            className={`${styles.floatingNav.base} ${
+              scrolled
+                ? styles.floatingNav.scrolled
+                : styles.floatingNav.notScrolled
+            }`}
+            role="region"
+            aria-roledescription="navigation"
+          >
+            <div className="flex items-center justify-between gap-4">
+              <Link to="/" className="flex items-center">
+                <div className={styles.logoContainer}>
+                  <img
+                    src={logo}
+                    alt="Karzone logo"
+                    className="h-[1em] w-auto block"
+                    style={{ display: "block", objectFit: "contain" }}
+                  />
+                  <span className={styles.logoText}>KARZONE</span>
                 </div>
+              </Link>
 
-                <div className="flex-1 px-4 hidden lg:block">
-                    <form onSubmit={submitSearch} className="relative max-w-xl mx-auto">
-                        <AiOutlineSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                        <input
-                            type="search"
-                            value={q}
-                            onChange={(e) => setQ(e.target.value)}
-                            placeholder="Search by brand or model..."
-                            className="w-full bg-gray-100 rounded-full pl-10 pr-4 py-2 text-sm focus:outline-none"
-                        />
-                    </form>
-                </div>
+              <NavLinks />
 
-                <div className="flex items-center space-x-4">
-                    <div className="hidden sm:flex items-center space-x-3 text-sm">
-                        <div>
-                            <Link to="/login" className="text-gray-500 hover:text-blue-600">
-                                Login
-                            </Link>
-                            <span> / </span>
-                            <Link to="/register" className="text-gray-500 hover:text-blue-600">
-                                Register
-                            </Link>
-                        </div>
+              <UserActions
+                isLoggedIn={isLoggedIn}
+                currentUser={currentUser}
+                onLogout={handleLogout}
+              />
 
-                        <Link
-                            to="/post"
-                            className="bg-blue-600 text-white rounded-full px-4 py-2 flex items-center text-sm font-semibold"
-                        >
-                            Post
-                        </Link>
-                    </div>
-
-                    <button
-                        type="button"
-                        aria-expanded={mobileOpen}
-                        onClick={() => setMobileOpen((v) => !v)}
-                        className="md:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100"
-                    >
-                        {mobileOpen ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
-                    </button>
-                </div>
+              <div className="md:hidden flex items-center">
+                <button
+                  ref={buttonRef}
+                  onClick={() => setIsOpen((p) => !p)}
+                  className={styles.mobileMenuButton}
+                  aria-expanded={isOpen}
+                  aria-controls="mobile-menu"
+                  aria-label={isOpen ? "Close menu" : "Open menu"}
+                >
+                  {isOpen ? (
+                    <FaTimes className="h-5 w-5" />
+                  ) : (
+                    <FaBars className="h-5 w-5" />
+                  )}
+                </button>
+              </div>
             </div>
+          </div>
+        </div>
+      </div>
 
-            {/* mobile menu */}
-            {mobileOpen && (
-                <div className="lg:hidden border-t bg-white">
-                    <div className="px-4 py-3 space-y-3">
-                        <form onSubmit={submitSearch} className="relative">
-                            <AiOutlineSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                            <input
-                                type="search"
-                                value={q}
-                                onChange={(e) => setQ(e.target.value)}
-                                placeholder="Search by brand or model..."
-                                className="w-full bg-gray-100 rounded-full pl-10 pr-4 py-2 text-sm focus:outline-none"
-                            />
-                        </form>
+      <MobileMenu
+        isOpen={isOpen}
+        menuRef={menuRef}
+        onClose={() => setIsOpen(false)}
+        isLoggedIn={isLoggedIn}
+        onLogout={handleLogout}
+      />
+    </nav>
+  );
+};
 
-                        <nav>
-                            <ul className="flex flex-col space-y-2 text-sm font-medium">
-                                {menuLinks.map((m) => (
-                                    <li key={m.path}>
-                                        <NavLink
-                                            to={m.path}
-                                            onClick={() => setMobileOpen(false)}
-                                            className={({ isActive }) =>
-                                                `block px-2 py-2 rounded ${isActive ? "text-blue-600 bg-gray-50" : "text-gray-700 hover:bg-gray-50"}`
-                                            }
-                                        >
-                                            {m.name}
-                                        </NavLink>
-                                    </li>
-                                ))}
-                            </ul>
-                        </nav>
-
-                        <div className="flex space-x-3">
-                            <Link
-                                to="/login"
-                                onClick={() => setMobileOpen(false)}
-                                className="flex-1 text-center py-2 rounded text-gray-700 hover:bg-gray-50"
-                            >
-                                Login
-                            </Link>
-                            <Link
-                                to="/register"
-                                onClick={() => setMobileOpen(false)}
-                                className="flex-1 text-center py-2 rounded text-gray-700 hover:bg-gray-50"
-                            >
-                                Register
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            )}
-        </header>
-    );
-}
-
-
-// sau này chia lại các component nhỏ hơn rồi chuyền vào các thông số khi cần 
+export default Navbar;
