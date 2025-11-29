@@ -2,7 +2,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { FaUser, FaSignOutAlt } from "react-icons/fa";
 import { navbarStyles as styles } from "../../../assets/dummyStyles";
-import { navLinks } from "./navLinksData";
+import { navLinks } from "./navLinkData.js";
 
 const MobileMenu = ({ isOpen, menuRef, onClose, isLoggedIn, onLogout }) => {
   const location = useLocation();
