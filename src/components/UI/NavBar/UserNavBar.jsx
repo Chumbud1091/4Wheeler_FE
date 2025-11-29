@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
-import logo from "../../assets/logocar.png";
+import logo from "../../../assets/logocar.png";
 import { navbarStyles as styles } from "../../../assets/dummyStyles";
 
 import NavLinks from "./NavLinks";
 import UserActions from "./UserActions";
 import MobileMenu from "./MobileMenu";
-import { useAuth } from "../../../hooks/useAuth";
+import { useAuth } from "../../../hooks/useAuth"; 
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -89,11 +89,11 @@ const Navbar = () => {
                 <div className={styles.logoContainer}>
                   <img
                     src={logo}
-                    alt="Karzone logo"
+                    alt="4Wheeler logo"
                     className="h-[1em] w-auto block"
                     style={{ display: "block", objectFit: "contain" }}
                   />
-                  <span className={styles.logoText}>KARZONE</span>
+                  <span className={styles.logoText}>4Wheeler</span>
                 </div>
               </Link>
 
