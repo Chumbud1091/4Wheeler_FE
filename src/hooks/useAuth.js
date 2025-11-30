@@ -1,20 +1,80 @@
 import { useCallback, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import apiClient from "../services/apiClient";
-import { clearAuth, setUserFromToken } from "../redux/UserSlice";
-import axios from "axios";
+import client from "../services/client";
+import {
+  logInStart,
+  logInSuccess,
+  logInFailure,
+  setUserFromToken,
+  clearAuth,
+} from "../redux/UserSlice";
+const API = import.meta.env.VITE_API_BASE_URL;
 
-const ME_ENDPOINT = "/api/auth/profile";
-const LOGOUT_ENDPOINT = "/api/auth/logout";
+export const ME_ENDPOINT = `${API}/auth/profile`;
+export const LOGIN_ENDPOINT = `${API}/auth/login`;
+export const LOGOUT_ENDPOINT = `${API}/auth/logout`;
 
 export const useAuth = () => {
   const dispatch = useDispatch();
   const abortRef = useRef(null);
 
   const currentUser = useSelector((state) => state.user.currentUser);
-  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const loading = useSelector((state) => state.user.loading);
   const error = useSelector((state) => state.user.error);
+  const isLoggedIn = !!currentUser;
+
+
+  const login = useCallback(
+    async (email, password) => {
+      dispatch(logInStart());
+
+      try {
+        const res = await client.post(LOGIN_ENDPOINT, {
+          email,
+          password,
+        });
+
+        const { token, user } = res.data;
+
+        localStorage.setItem("token", token);
+
+        dispatch(logInSuccess(user));
+        return user;
+      } catch (err) {
+        const message =
+          err?.response?.data?.message || "Login failed. Please try again.";
+        dispatch(logInFailure(message));
+        throw err;
+      }
+    },
+    [dispatch]
+  );
+
+  const loginWithGoogle = useCallback(
+    async (idToken, fallbackProfile) => {
+      dispatch(logInStart());
+      try {
+        const res = await client.post("/auth/google", { idToken });
+
+        const appUser = res.data.user || fallbackProfile || null;
+        const appToken = res.data.token || null;
+
+        if (appToken) {
+          localStorage.setItem("token", appToken);
+        }
+
+        dispatch(logInSuccess(appUser));
+        return appUser;
+      } catch (err) {
+        const message =
+          err?.response?.data?.message || "Google sign-in failed.";
+        dispatch(logInFailure(message));
+        throw err;
+      }
+    },
+    [dispatch]
+  );
+
 
   const validateToken = useCallback(
     async (signal) => {
@@ -25,7 +85,7 @@ export const useAuth = () => {
       }
 
       try {
-        const res = await apiClient.get(ME_ENDPOINT, {
+        const res = await client.get(ME_ENDPOINT, {
           signal,
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -38,80 +98,59 @@ export const useAuth = () => {
           dispatch(clearAuth());
         }
       } catch (err) {
-        if (
-          axios.isAxiosError(err) &&
-          err.response &&
-          err.response.status === 401
-        ) {
-          localStorage.removeItem("token");
-          dispatch(clearAuth());
-        } else {
-          dispatch(clearAuth());
-        }
+        localStorage.removeItem("token");
+        dispatch(clearAuth());
       }
     },
     [dispatch]
   );
 
-  const logout = useCallback(async () => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      try {
-        await apiClient.post(
-          LOGOUT_ENDPOINT,
-          {},
-          {
-            headers: { Authorization: `Bearer ${token}` },
-            timeout: 2000,
-          }
-        );
-      } catch {
-        // ignore
-      }
-    }
-
-    localStorage.removeItem("token");
-    dispatch(clearAuth());
-  }, [dispatch]);
-
-  useEffect(() => {
+  const triggerValidation = useCallback(() => {
+    abortRef.current?.abort();
     const controller = new AbortController();
     abortRef.current = controller;
-    validateToken(controller.signal);
-
-    return () => {
-      try {
-        controller.abort();
-      } catch {}
-      abortRef.current = null;
-    };
-  }, [validateToken]);
+    if (!currentUser) validateToken(controller.signal);
+  }, [validateToken, currentUser]);
 
   useEffect(() => {
-    const handleStorageChange = (ev) => {
-      if (ev.key === "token") {
-        if (abortRef.current) {
-          try {
-            abortRef.current.abort();
-          } catch {
-            // ignore
-          }
-        }
-        const controller = new AbortController();
-        abortRef.current = controller;
-        validateToken(controller.signal);
-      }
+    triggerValidation();
+    return () => abortRef.current?.abort();
+  }, [triggerValidation]);
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.key === "token") triggerValidation();
     };
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
-  }, [validateToken]);
+    window.addEventListener("storage", handler);
+    return () => window.removeEventListener("storage", handler);
+  }, [triggerValidation]);
+
+  const logout = useCallback(async () => {
+    const token = localStorage.getItem("token");
+    localStorage.removeItem("token");
+    dispatch(clearAuth());
+    if (!token) return;
+    try {
+      await client.post(
+        LOGOUT_ENDPOINT,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          timeout: 2000,
+        }
+      );
+    } catch {
+      // ignore
+    }
+  }, [dispatch]);
 
   return {
     currentUser,
     isLoggedIn,
     loading,
     error,
-    validateToken, 
+    login,
+    loginWithGoogle, 
     logout,
   };
 };

@@ -4,27 +4,28 @@ const initialState = {
   currentUser: null,
   error: null,
   loading: false,
-  isLoggedIn: !!localStorage.getItem("token"),
 };
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    signInStart: (state) => {
+    logInStart: (state) => {
       state.loading = true;
+      state.error = null;
     },
-    signInSuccess: (state, action) => {
+
+    logInSuccess: (state, action) => {
       state.currentUser = action.payload;
       state.loading = false;
       state.error = null;
-      state.isLoggedIn = true;            
     },
-    signInFailure: (state, action) => {
+
+    logInFailure: (state, action) => {
       state.error = action.payload;
       state.loading = false;
-      state.isLoggedIn = false;          
     },
+
     updateUserStart: (state) => {
       state.loading = true;
     },
@@ -37,6 +38,7 @@ const userSlice = createSlice({
       state.error = action.payload;
       state.loading = false;
     },
+
     deleteUserStart: (state) => {
       state.loading = true;
     },
@@ -44,12 +46,12 @@ const userSlice = createSlice({
       state.currentUser = null;
       state.loading = false;
       state.error = null;
-      state.isLoggedIn = false;         
     },
     deleteUserFailure: (state, action) => {
       state.error = action.payload;
       state.loading = false;
     },
+
     signOutUserStart: (state) => {
       state.loading = true;
     },
@@ -57,7 +59,6 @@ const userSlice = createSlice({
       state.currentUser = null;
       state.loading = false;
       state.error = null;
-      state.isLoggedIn = false;      
     },
     signOutUserFailure: (state, action) => {
       state.error = action.payload;
@@ -68,22 +69,20 @@ const userSlice = createSlice({
       state.currentUser = action.payload || null;
       state.error = null;
       state.loading = false;
-      state.isLoggedIn = !!action.payload;
     },
 
     clearAuth: (state) => {
       state.currentUser = null;
       state.error = null;
       state.loading = false;
-      state.isLoggedIn = false;
     },
   },
 });
 
 export const {
-  signInStart,
-  signInSuccess,
-  signInFailure,
+  logInStart,
+  logInSuccess,
+  logInFailure,
   updateUserFailure,
   updateUserSuccess,
   updateUserStart,
@@ -93,7 +92,6 @@ export const {
   signOutUserFailure,
   signOutUserSuccess,
   signOutUserStart,
-  // 🔹 ADDED exports
   setUserFromToken,
   clearAuth,
 } = userSlice.actions;
