@@ -3,14 +3,15 @@ import { FaStar, FaQuoteLeft, FaCar, FaRoad, FaKey, FaMapMarkerAlt } from 'react
 
 export const navbarStyles = {
   nav: {
-    base: "fixed w-full top-0 z-50 transition-all duration-300",
+    base: "fixed w-full top-0 z-50 transition-all duration-100",
     scrolled: "py-2",
     notScrolled: "py-4"
   },
   floatingNav: {
-    base: "bg-white/95 backdrop-blur-md w-full rounded-full shadow-lg border border-gray-200 transition-all duration-300",
+    base: "bg-white backdrop-blur-md w-full rounded-[2rem] shadow-lg border border-gray-200 transition-all duration-300",
     scrolled: "py-2 px-4 md:px-6",
-    notScrolled: "py-3 px-5 md:px-8"
+    notScrolled: "py-3 px-5 md:px-8",
+    openMobile: "shadow-none rounded-b-none"
   },
   logoContainer: "flex flex-col items-center text-xl md:text-2xl lg:text-2xl leading-none",
   logoText: "font-bold tracking-wider text-gray-900",
@@ -28,10 +29,10 @@ export const navbarStyles = {
   mobileMenuButton: "p-2 rounded-md text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-300",
   mobileMenu: {
     container: "md:hidden transition-all duration-200 overflow-hidden",
-    open: "max-h-[400px] opacity-100",
+    open: "transition duration-400 ease-in-out max-h-[500px] opacity-100",
     closed: "max-h-0 opacity-0 pointer-events-none"
   },
-  mobileMenuInner: "bg-white border-t border-gray-200 shadow-lg mt-2 rounded-b-lg mx-3",
+  mobileMenuInner: "bg-white shadow-lg rounded-b-[2rem] mx-4 sm:mx-6",
   mobileGrid: "grid grid-cols-1 sm:grid-cols-2 gap-2",
   mobileLink: {
     base: "block w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors",

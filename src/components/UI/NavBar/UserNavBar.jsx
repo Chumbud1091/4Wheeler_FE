@@ -80,7 +80,7 @@ const Navbar = () => {
               scrolled
                 ? styles.floatingNav.scrolled
                 : styles.floatingNav.notScrolled
-            }`}
+            } ${ isOpen ? styles.floatingNav.openMobile : "" }`}
             role="region"
             aria-roledescription="navigation"
           >

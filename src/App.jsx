@@ -1,20 +1,17 @@
-import React from 'react'
-import UserNavBar from './components/UI/NavBar/UserNavBar.jsx'
-import { Routes, Route, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import UserNavbar from './components/UI/NavBar/UserNavBar.jsx'
+import Home from './components/pages/Home'
+import Login from './components/pages/Login.jsx'
 
 const App = () => {
 
-  const isAdmidPath = useLocation().pathname.startsWith('/admin');
-
   return (
     <>
-      <div>
-        {!isAdmidPath && <UserNavBar/>}
-      </div>
-    
-
       <Routes>
-        <Route path='/' element={<Home/>}/> 
+        <Route path='/' element = {<Home/>}/>
+        <Route path='/login' element = {<Login/>}/>
+        <Route path='/' element = {<Home/>}/>
+        <Route path='/' element = {<Home/>}/>
       </Routes>
     </>
   )

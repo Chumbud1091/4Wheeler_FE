@@ -81,7 +81,7 @@ const Testimonials = () => {
           })}
         </div>
 
-          <div classNamew={styles.statsContainer}>
+          <div className={styles.statsContainer}>
             <div className={styles.statsGrid}>
               <div className={styles.statItem}>
                 <div className={styles.statValue(styles.statColors.value[0])}>20k+</div>

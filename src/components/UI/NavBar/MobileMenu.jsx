@@ -16,13 +16,11 @@ const MobileMenu = ({ isOpen, menuRef, onClose, isLoggedIn, onLogout }) => {
     <div
       id="mobile-menu"
       ref={menuRef}
-      className={`${styles.mobileMenu.container} ${
-        isOpen ? styles.mobileMenu.open : styles.mobileMenu.closed
-      }`}
+      className={`${styles.mobileMenu.container} ${ isOpen ? styles.mobileMenu.open : styles.mobileMenu.closed }`}
       aria-hidden={!isOpen}
     >
       <div className={styles.mobileMenuInner}>
-        <div className="px-4 pt-3 pb-4 space-y-2">
+        <div className="px-4 pt-3 pb-4 space-y-2  ">
           <div className={styles.mobileGrid}>
             {navLinks.map((link) => (
               <Link
