@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import UserNavbar from './components/UI/NavBar/UserNavBar.jsx'
 import Home from './components/pages/Home'
 import Login from './components/pages/Login.jsx'
+import Contact from './components/pages/Contact.jsx'
 import { ToastContainer } from 'react-toastify'
 import SignUp from './components/pages/SignUp.jsx'
 
@@ -13,7 +14,7 @@ const App = () => {
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<SignUp />} />
-        <Route path='/' element={<Home />} />
+        <Route path='/contact' element={<Contact />} />
       </Routes>
       <ToastContainer
         position="top-right"
