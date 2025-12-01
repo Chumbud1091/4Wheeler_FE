@@ -97,6 +97,7 @@ const Login = () => {
           <form onSubmit={handleSubmit} className={styles.form.container}>
             <div className={styles.form.inputContainer}>
               <div className={styles.form.inputWrapper}>
+                <div className={styles.form.inputBlur}><FaUser/></div>
                 <div className={styles.form.inputIcon}>
                   <FaUser />
                 </div>
@@ -114,6 +115,7 @@ const Login = () => {
 
             <div className={styles.form.inputContainer}>
               <div className={styles.form.inputWrapper}>
+                <div className={styles.form.inputBlur}><FaUser/></div>
                 <div className={styles.form.inputIcon}>
                   <FaLock />
                 </div>
@@ -142,9 +144,9 @@ const Login = () => {
               </span>
               <div className={styles.form.buttonHover}></div>
             </button>
-
-            <GoogleButton />
-
+            
+            <GoogleButton variant={styles}/>
+          
             <div className={styles.signupSection}>
               <div className={styles.signupText}>
                 Don't have an account?
