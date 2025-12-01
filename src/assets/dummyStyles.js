@@ -92,7 +92,8 @@ export const loginStyles = {
     container: "space-y-4 sm:space-y-6",
     inputContainer: "relative z-10",
     inputWrapper: "relative",
-    inputIcon: "absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-orange-300/80",
+    inputBlur:"absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-orange-300",
+    inputIcon: "absolute inset-y-0 left-0 pl-3 z-1 flex items-center pointer-events-none text-orange-300",
     input: "w-full pl-10 pr-3 py-3 sm:py-4 rounded-xl text-sm sm:text-base placeholder-opacity-70 border transition duration-300 focus:outline-none focus:ring-2 focus:border-transparent bg-white/5 backdrop-blur-sm text-white/90 placeholder-orange-200/40 border-white/10 focus:ring-orange-500/70",
     passwordToggle: "absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer transition-colors text-orange-300/80 hover:text-orange-200/90",
     submitButton: "w-full py-3 sm:py-4 rounded-full font-bold shadow-lg hover:shadow-xl transition-transform duration-300 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 relative overflow-hidden group bg-gradient-to-r from-orange-500/90 to-orange-600/90 text-white/95 hover:from-orange-600/90 hover:to-orange-700/90 focus:ring-orange-500/70",
@@ -135,20 +136,21 @@ export const signupStyles = {
     container: "space-y-3 sm:space-y-4 md:space-y-5",
     inputContainer: "relative z-10",
     inputWrapper: "relative",
-    inputIcon: "absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-orange-300/80",
+    inputBlur:"absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-orange-300",
+    inputIcon: "absolute inset-y-0 left-0 pl-3 z-1 flex items-center pointer-events-none text-orange-300",
     input: "w-full pl-10 pr-3 py-2 sm:py-3 md:py-4 rounded-xl text-xs sm:text-sm placeholder-opacity-70 border focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-300 bg-white/5 backdrop-blur-sm text-white/90 placeholder-orange-200/40 border-white/10 focus:ring-orange-500/70",
     passwordToggle: "absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer transition-colors text-orange-300/80 hover:text-orange-200/90",
     checkbox: "h-4 w-4 sm:h-5 sm:w-5 rounded focus:ring-0 border text-orange-600 border-gray-500 bg-gray-700/30 checked:bg-orange-500/80",
     checkboxLabel: "ml-2 sm:ml-3 text-xs sm:text-sm text-orange-200/80 cursor-pointer select-none",
     checkboxLink: "font-medium text-orange-300 hover:underline",
-    submitButton: "w-full py-2 sm:py-3 md:py-4 rounded-full font-bold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer focus:outline-none focus:ring-2 relative overflow-hidden group bg-gradient-to-r from-orange-500/90 to-orange-600/90 text-white/95 hover:from-orange-600/90 hover:to-orange-700/90 focus:ring-orange-500/70",
+    submitButton: "w-full py-2 sm:py-3 md:py-4 font-bold hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer focus:outline-none focus:ring-2 relative overflow-hidden group bg-gradient-to-r from-orange-500/90 to-orange-600/90 text-white/95 hover:from-orange-600/90 hover:to-orange-700/90 focus:ring-orange-500/70 rounded-[16px] shadow-[0_8px_16px_rgba(0,0,0,0.2)]",
     buttonText: "relative z-10 flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base",
     buttonHover: "absolute inset-0 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0 bg-gradient-to-r from-orange-400/50 to-orange-500/50"
   },
   
   signinSection: "mt-2 pt-2 sm:pt-3 border-t text-center",
-  signinText: "mb-2 sm:mb-3 md:mb-4 text-xs sm:text-sm md:text-base text-orange-200/70",
-  signinButton: "inline-block w-full px-3 py-2 sm:px-4 sm:py-2 md:px-6 md:py-3 rounded-xl font-medium transition-all duration-300 transform hover:-translate-y-0.5 text-xs sm:text-sm md:text-base bg-transparent border border-orange-500/50 text-orange-300/90 hover:bg-orange-500/10 hover:text-white/90"
+  signinText: "mb-2 sm:mb-3 md:mb-4 text-xs sm:text-sm md:text-base text-orange-200/70 text-center",
+  signinButton: "inline-block w-full px-3 py-2 sm:px-4 sm:py-2 md:px-6 md:py-3 rounded-xl font-medium transition-all duration-300 transform hover:-translate-y-0.5 text-xs sm:text-sm md:text-base bg-transparent border border-orange-500/50 text-orange-300/90 hover:bg-orange-500/10 hover:text-white/90 text-center"
 };
 
 // src/assets/dummyStyles.js

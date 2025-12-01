@@ -75,6 +75,38 @@ export const useAuth = () => {
     [dispatch]
   );
 
+  const signup = useCallback(
+    async ({ name, email, password }) => {
+      dispatch(logInStart());
+      try {
+        const res = await client.post(`${API}/auth/signup`, {
+          name,
+          email,
+          password,
+        });
+
+        const { token, user } = res.data || {};
+
+        if (token) {
+          localStorage.setItem("token", token);
+        }
+        if (user) {
+          dispatch(logInSuccess(user));
+        } else {
+          dispatch(logInSuccess(null));
+        }
+
+        return res.data;
+      } catch (err) {
+        const message =
+          err?.response?.data?.message || "Sign up failed. Please try again.";
+        dispatch(logInFailure(message));
+        throw err;
+      }
+    },
+    [dispatch]
+  );
+
 
   const validateToken = useCallback(
     async (signal) => {
@@ -150,7 +182,8 @@ export const useAuth = () => {
     loading,
     error,
     login,
-    loginWithGoogle, 
+    loginWithGoogle,
+    signup,
     logout,
   };
 };

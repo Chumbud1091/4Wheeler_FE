@@ -3,9 +3,9 @@ import { AiOutlineGooglePlus } from "react-icons/ai";
 import { app } from "../../../firebase";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
-import { loginStyles as styles } from "../../assets/dummyStyles";
+import { loginStyles, signupStyles } from "../../assets/dummyStyles";
 
-export default function GoogleButton() {
+const GoogleButton = ({ variant }) => {
   const navigate = useNavigate();
   const { loginWithGoogle, loading } = useAuth();
 
@@ -32,7 +32,6 @@ export default function GoogleButton() {
       navigate("/");
     } catch (err) {
       console.error("could not sign in with google", err);
-      // có thể toast error ở đây nếu muốn
     }
   };
 
@@ -40,13 +39,15 @@ export default function GoogleButton() {
     <button
       onClick={handleGoogleClick}
       type="button"
-      className={`${styles.form.submitButton} flex items-center justify-center gap-2`}
+      className={`${variant.form.submitButton} flex items-center justify-center gap-2`}
       disabled={loading}
     >
       <AiOutlineGooglePlus className="text-xl" />
-      <span className={styles.form.buttonText}>
+      <span className={variant.form.buttonText}>
         {loading ? "Signing in..." :  "CONTINUE WITH GOOGLE"}
       </span>
     </button>
   );
 }
+
+export default GoogleButton;
