@@ -6,7 +6,6 @@ import logo from '../../assets/logocar.png';
 import { toastError, toastSuccess } from '../utils/toastUtils';
 import { useAuth } from "../../hooks/useAuth";
 import GoogleButton from '../auth/GoogleButton';
-import { useDispatch } from 'react-redux';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -212,10 +211,10 @@ const SignUp = () => {
               </div>
             </div>
 
-            <button type="submit" className={styles.form.submitButton} >
+            <button type="submit" className={styles.form.submitButton} disabled={loading}>
               <span className={styles.form.buttonText}>
                 <FaCheck className="text-white text-sm sm:text-base md:text-lg" />
-                CREATE ACCOUNT
+                {loading ? "Signing up..." : "CREATE ACCOUNT  "}
               </span>
               <div className={styles.form.buttonHover}></div>
             </button>
