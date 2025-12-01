@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { loginStyles as styles } from '../../assets/dummyStyles';
 import { FaArrowLeft, FaEyeSlash, FaLock, FaUser, FaEye } from 'react-icons/fa';
 import logo from '../../assets/logocar.png';
-import { toast, ToastContainer } from 'react-toastify';
+import { toastSuccess, toastError } from '../utils/toastUtils';
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import GoogleButton from '../auth/GoogleButton';
@@ -11,7 +11,7 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { login, loading, error } = useAuth(); 
+  const { login, loading, error } = useAuth();
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
@@ -33,29 +33,15 @@ const Login = () => {
     try {
       await login(credentials.email, credentials.password);
 
-      toast.success('Login Successful! Welcome back', {
-        position: 'top-right',
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: 'colored',
-        onClose: () => {
-          const redirectPath = location.state?.from || '/';
-          navigate(redirectPath, { replace: true });
-        }
+      toastSuccess("Login Successful! Welcome back", () => {
+        const redirectPath = location.state?.from || "/";
+        navigate(redirectPath, { replace: true });
       });
     } catch (err) {
-      toast.error(error || 'Login Failed! Please check your credentials.', {
-        position: 'top-right',
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: 'colored',
-      });
+      toastError(error || "Login Failed! Please check your credentials.");
     }
-  }
+  };
+
 
   const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
 
@@ -168,24 +154,6 @@ const Login = () => {
           </form>
         </div>
       </div>
-
-      <ToastContainer
-        position="top-right"
-        autoClose={1000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-        toastStyle={{
-          backgroundColor: '#fb923c',
-          borderRadius: '12px',
-          boxShadow: '0 4px 20px rgba(249, 115, 22, 0.25)'
-        }}
-      />
     </div>
   );
 };
