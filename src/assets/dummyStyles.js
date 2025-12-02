@@ -8,7 +8,7 @@ export const navbarStyles = {
     notScrolled: "py-4"
   },
   floatingNav: {
-    base: "bg-white backdrop-blur-md w-full rounded-[2rem] shadow-lg border border-gray-200 transition-all duration-300",
+    base: "bg-white backdrop-blur-md w-full rounded-[2rem] md:rounded-full shadow-lg border border-gray-200 transition-all duration-300",
     scrolled: "py-2 px-4 md:px-6",
     notScrolled: "py-3 px-5 md:px-8",
     openMobile: "shadow-none rounded-b-none"
