@@ -145,9 +145,11 @@ export const useAuth = () => {
     const token = localStorage.getItem("token");
     if(!token){
       dispatch(clearAuth());
+          return;
     }
-    if (!currentUser) validateToken(controller.signal);
-  }, [validateToken, currentUser]);
+    validateToken(controller.signal);
+  }, [validateToken, dispatch]);
+
 
   useEffect(() => {
     triggerValidation();
