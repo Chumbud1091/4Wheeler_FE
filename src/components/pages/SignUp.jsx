@@ -35,22 +35,20 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!acceptTerms) {
-      toastError('You must accept the terms and conditions to sign up.', { theme: "dark" });
+      toastError('You must accept the terms and conditions to sign up.');
       return;
     }
     try {
-      await signup(formData); // <- gọi useAuth.signup
+      await signup(formData); 
 
       toastSuccess("Account created successfully!", {
-        theme: "dark",
         onClose: () => {
           navigate("/login");
         },
       });
     } catch (err) {
       toastError(
-        error || "Sign up failed! Please check your information.",
-        { theme: "dark" }
+        err?.response?.data?.message  || "Sign up failed! Please check your information."
       );
     }
   }

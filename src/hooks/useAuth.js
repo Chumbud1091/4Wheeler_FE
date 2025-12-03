@@ -13,6 +13,7 @@ const API = import.meta.env.VITE_API_BASE_URL;
 export const ME_ENDPOINT = `${API}/auth/profile`;
 export const LOGIN_ENDPOINT = `${API}/auth/login`;
 export const LOGOUT_ENDPOINT = `${API}/auth/logout`;
+export const GOOGLE_ENDPOINT = `${API}/auth/google`;
 
 export const useAuth = () => {
   const dispatch = useDispatch();
@@ -54,7 +55,7 @@ export const useAuth = () => {
     async (idToken, fallbackProfile) => {
       dispatch(logInStart());
       try {
-        const res = await client.post("/auth/google", { idToken });
+        const res = await client.post(GOOGLE_ENDPOINT, { idToken });
 
         const appUser = res.data.user || fallbackProfile || null;
         const appToken = res.data.token || null;
@@ -141,6 +142,10 @@ export const useAuth = () => {
     abortRef.current?.abort();
     const controller = new AbortController();
     abortRef.current = controller;
+    const token = localStorage.getItem("token");
+    if(!token){
+      dispatch(clearAuth());
+    }
     if (!currentUser) validateToken(controller.signal);
   }, [validateToken, currentUser]);
 

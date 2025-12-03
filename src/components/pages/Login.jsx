@@ -38,7 +38,7 @@ const Login = () => {
         navigate(redirectPath, { replace: true });
       });
     } catch (err) {
-      toastError(error || "Login Failed! Please check your credentials.");
+      toastError(err?.response?.data?.message || "Login Failed! Please check your credentials.");
     }
   };
 

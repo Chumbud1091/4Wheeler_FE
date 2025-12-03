@@ -18,6 +18,6 @@ export const toastError = (message, options = {}) =>
     closeOnClick: true,
     pauseOnHover: true,
     draggable: true,
-    theme: "colored",
+    theme: "dark ",
     ...options,
   });
