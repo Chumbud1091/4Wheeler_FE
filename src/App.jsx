@@ -5,6 +5,7 @@ import Login from './components/pages/Login.jsx'
 import Contact from './components/pages/Contact.jsx'
 import { ToastContainer } from 'react-toastify'
 import SignUp from './components/pages/SignUp.jsx'
+import Cars from './components/pages/Cars.jsx'
 
 const App = () => {
 
@@ -15,6 +16,7 @@ const App = () => {
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<SignUp />} />
         <Route path='/contact' element={<Contact />} />
+        <Route path='/cars' element={<Cars />} />
       </Routes>
       <ToastContainer
         position="top-right"

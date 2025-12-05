@@ -3,9 +3,10 @@ import { Zap } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import client from "../../../services/client";
 import { homeStyles as styles } from "../../../assets/dummyStyles"; 
-import CarCard from "./CarCard";
-import CarCardSkeleton from "./CarCardSkeleton";
+import CarCard from "../CarComponents/CarCard";
+import CarCardSkeleton from "../CarComponents/CarCardSkeleton";
 import carsData from "../../../assets/carsData";
+import { toastError } from "../../utils/toastUtils";
 
 const HomeCars = () => {
   const navigate = useNavigate();
@@ -41,11 +42,12 @@ const HomeCars = () => {
         return;
       }
       console.warn("API returned empty data. Using fallback carsData.");
-      setCars(carsData);
+      setCars(carsData.slice(0,limit));
     } catch (err) {
       console.error("Error fetching cars, using fallback data:", err);
-      setCars(carsData);
+      setCars(carsData.slice(0,limit));
       setError("");
+      toastError(err?.response?.data?.message || err.message || "Failed to load cars");
     } finally {
       setLoading(false);
     }
@@ -91,7 +93,7 @@ const HomeCars = () => {
       <div className={styles.grid}>
         {loading &&
           Array.from({ length: limit }).map((_, idx) => (
-            <CarCardSkeleton key={`s-${idx}`} index={idx} />
+            <CarCardSkeleton key={`s-${idx}`} index={idx} styles={styles} />
           ))}
 
         {!loading && error && (

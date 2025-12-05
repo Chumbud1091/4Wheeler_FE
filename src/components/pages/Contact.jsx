@@ -11,7 +11,7 @@ import {
   FADE_IN_KEYFRAMES,
 } from "../UI/ContactComponents/ContactConstain";
 import Navbar from '../UI/NavBar/UserNavBar';
-import Footer from '../UI/HomeComponents/Footer';
+import Footer from '../UI/Footer/Footer';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -40,7 +40,7 @@ const Contact = () => {
       `Phone: ${formData.phone}%0A` +
       `Car Type: ${formData.carType}%0A` +
       `Message: ${formData.message}`;
-    window.open(`https://wa.me/+918299431275?text=${whatsappMessage}`, '_blank');
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`, '_blank');
 
     setFormData({ name: '', email: '', phone: '', carType: '', message: '' });
   };

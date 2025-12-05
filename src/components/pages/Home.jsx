@@ -3,7 +3,7 @@ import UserNavBar from '../UI/NavBar/UserNavBar'
 import HomeBanner from '../UI/HomeComponents/HomeBanner'
 import HomeCars from '../UI/HomeComponents/HomeCars'
 import Testimonials from '../testimonials/Testimonials'
-import Footer from '../UI/HomeComponents/Footer'
+import Footer from '../UI/Footer/Footer'
 
 const Home = () => {
   return (
