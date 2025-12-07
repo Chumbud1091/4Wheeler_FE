@@ -11,7 +11,7 @@ const SignUp = () => {
   const navigate = useNavigate();
   const { signup, loading, error } = useAuth();
   const [formData, setFormData] = useState({
-    name: '',
+    username: '',
     email: '',
     password: '',
   });
@@ -128,11 +128,11 @@ const SignUp = () => {
                 </div>
                 <input
                   type="text"
-                  name="name"
+                  name="username"
                   value={formData.name}
                   onChange={handleChange}
                   className={styles.form.input}
-                  placeholder="Name"
+                  placeholder="User Name"
                   required
                   style={{ borderRadius: "16px" }}
                 />

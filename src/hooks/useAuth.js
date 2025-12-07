@@ -8,11 +8,12 @@ import {
   setUserFromToken,
   clearAuth,
 } from "../redux/UserSlice";
-const API = import.meta.env.VITE_API_BASE_URL;
 
-export const ME_ENDPOINT = `${API}/auth/profile`;
-export const LOGIN_ENDPOINT = `${API}/auth/login`;
-export const LOGOUT_ENDPOINT = `${API}/auth/logout`;
+const API = import.meta.env.VITE_API_BASE;
+
+export const PROFILE_ENDPOINT = `${API}/auth/users/profile`;
+export const LOGIN_ENDPOINT = `${API}/auth/users/login`;
+export const LOGOUT_ENDPOINT = `${API}/auth/users/logout`;
 export const GOOGLE_ENDPOINT = `${API}/auth/google`;
 
 export const useAuth = () => {
@@ -24,7 +25,6 @@ export const useAuth = () => {
   const error = useSelector((state) => state.user.error);
   const isLoggedIn = !!currentUser;
 
-
   const login = useCallback(
     async (email, password) => {
       dispatch(logInStart());
@@ -35,11 +35,9 @@ export const useAuth = () => {
           password,
         });
 
-        const { token, user } = res.data;
-
-        localStorage.setItem("token", token);
-
+        const user = res.data;
         dispatch(logInSuccess(user));
+
         return user;
       } catch (err) {
         const message =
@@ -57,14 +55,9 @@ export const useAuth = () => {
       try {
         const res = await client.post(GOOGLE_ENDPOINT, { idToken });
 
-        const appUser = res.data.user || fallbackProfile || null;
-        const appToken = res.data.token || null;
-
-        if (appToken) {
-          localStorage.setItem("token", appToken);
-        }
-
+        const appUser = res.data || fallbackProfile || null;
         dispatch(logInSuccess(appUser));
+
         return appUser;
       } catch (err) {
         const message =
@@ -77,20 +70,17 @@ export const useAuth = () => {
   );
 
   const signup = useCallback(
-    async ({ name, email, password }) => {
+    async ({ username, email, password }) => {
       dispatch(logInStart());
       try {
-        const res = await client.post(`${API}/auth/signup`, {
-          name,
+        const res = await client.post(`${API}/auth/users/register`, {
+          username,
           email,
           password,
         });
 
-        const { token, user } = res.data || {};
+        const user = res.data?.user ?? null;
 
-        if (token) {
-          localStorage.setItem("token", token);
-        }
         if (user) {
           dispatch(logInSuccess(user));
         } else {
@@ -108,20 +98,10 @@ export const useAuth = () => {
     [dispatch]
   );
 
-
   const validateToken = useCallback(
     async (signal) => {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        dispatch(clearAuth());
-        return;
-      }
-
       try {
-        const res = await client.get(ME_ENDPOINT, {
-          signal,
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await client.get(PROFILE_ENDPOINT, { signal });
 
         const profile = res?.data?.user ?? res?.data ?? null;
 
@@ -131,7 +111,6 @@ export const useAuth = () => {
           dispatch(clearAuth());
         }
       } catch (err) {
-        localStorage.removeItem("token");
         dispatch(clearAuth());
       }
     },
@@ -142,11 +121,9 @@ export const useAuth = () => {
     abortRef.current?.abort();
     const controller = new AbortController();
     abortRef.current = controller;
-    const token = localStorage.getItem("token");
-    if(!token){
-      dispatch(clearAuth());
+    if (!currentUser) {
+      validateToken(controller.signal);
     }
-    if (!currentUser) validateToken(controller.signal);
   }, [validateToken, currentUser]);
 
   useEffect(() => {
@@ -154,25 +131,13 @@ export const useAuth = () => {
     return () => abortRef.current?.abort();
   }, [triggerValidation]);
 
-  useEffect(() => {
-    const handler = (e) => {
-      if (e.key === "token") triggerValidation();
-    };
-    window.addEventListener("storage", handler);
-    return () => window.removeEventListener("storage", handler);
-  }, [triggerValidation]);
-
   const logout = useCallback(async () => {
-    const token = localStorage.getItem("token");
-    localStorage.removeItem("token");
     dispatch(clearAuth());
-    if (!token) return;
     try {
       await client.post(
         LOGOUT_ENDPOINT,
         {},
         {
-          headers: { Authorization: `Bearer ${token}` },
           timeout: 2000,
         }
       );
