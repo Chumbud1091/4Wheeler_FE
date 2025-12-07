@@ -13,40 +13,6 @@ import {
   isBookDisabled,
 } from "../../utils/availabilityUtils";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
-const FALLBACK_IMAGE = API_BASE_URL
-  ? `${API_BASE_URL}/uploads/default-car.png`
-  : "https://via.placeholder.com/400x250.png?text=No+Image";
-
-const buildImageSrc = (img) => {
-  if (!img) return "";
-  if (Array.isArray(img)) img = img[0];
-  if (typeof img !== "string") return "";
-  const t = img.trim();
-  if (!t) return "";
-
-  if (t.startsWith("http")) return t;
-  if (t.startsWith("/")) return `${API_BASE_URL}${t}`;
-  return `${API_BASE_URL}/uploads/${t}`;
-};
-
-const handleImageError = (e) => {
-  const img = e.target;
-  if (!img) return;
-
-  img.onerror = null;
-  img.src = FALLBACK_IMAGE;
-
-  img.onerror = () => {
-    img.onerror = null;
-    img.src =
-      "https://via.placeholder.com/400x250.png?text=No+Image";
-  };
-
-  img.alt = img.alt || "Image unavailable";
-  img.style.objectFit = img.style.objectFit || "cover";
-};
-
 const renderAvailabilityBadge = (effective) => {
   if (!effective) return null;
 
@@ -126,9 +92,8 @@ const CarCard = ({
 
   const effectiveAvailability = computeEffectiveAvailability(car);
   const disabled = isBookDisabled(car, effectiveAvailability);
-
-  const imageSrc = buildImageSrc(car.image) || FALLBACK_IMAGE;
-
+  const imageSrc = car.images?.[0];
+  
   const transform =
     animateCards === false
       ? "translateY(40px)"
@@ -167,11 +132,11 @@ const CarCard = ({
       <div className="absolute right-4 top-4 z-20">
         {renderAvailabilityBadge(effectiveAvailability)}
       </div>
+
       <div className={styles.imageContainer}>
         <img
           src={imageSrc}
           alt={carName}
-          onError={handleImageError}
           className="w-full h-full object-cover transition-transform duration-500"
           style={{
             transform:
@@ -185,7 +150,7 @@ const CarCard = ({
           <div>
             <h3 className={styles.carName}>{carName}</h3>
             <p className={styles.carInfoContainer}>
-              <span className={styles.carTypeBadge}>{car.type}</span>
+              <span className={styles.carTypeBadge}>{car.category}</span>
               <span className={styles.carYear}>{car.year}</span>
             </p>
           </div>
