@@ -111,7 +111,18 @@ export const useAuth = () => {
           dispatch(clearAuth());
         }
       } catch (err) {
-        dispatch(clearAuth());
+        if (err?.name === "CanceledError" || err?.name === "AbortError" || err?.code === "ERR_CANCELED") {
+          console.warn("[useAuth] Token validation request was cancelled.");
+          return;
+        }
+        const status = err?.response?.status;
+
+        if (status === 401 || status === 403) {
+          console.warn("[useAuth] Token invalid or expired. Clearing auth.");
+          dispatch(clearAuth());
+        } else {
+          console.error("[useAuth] Token validation failed but keeping current user:", err);
+        }
       }
     },
     [dispatch]
