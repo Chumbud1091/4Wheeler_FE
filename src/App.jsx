@@ -2,7 +2,7 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import { FaArrowUp } from "react-icons/fa";
-import { loadingSpinner } from "./assets/dummyStyles";
+import { myBookingsStyles as s } from "./assets/dummyStyles";
 
 import Home from "./components/pages/Home";
 import Login from "./components/pages/Login.jsx";
@@ -36,7 +36,7 @@ const RedirectIfAuthenticated = ({ children }) => {
   const { isLoggedIn, loading } = useAuth();
   if (loading) {
     return (
-      <div className={loadingSpinner}>
+      <div className={s.loadingSpinner}>
         Loading...
       </div>
     );
