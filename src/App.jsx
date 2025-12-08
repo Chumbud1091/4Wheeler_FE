@@ -9,11 +9,15 @@ import Contact from "./components/pages/Contact.jsx";
 import SignUp from "./components/pages/SignUp.jsx";
 import Cars from "./components/pages/Cars.jsx";
 import CarPageDetails from "./components/pages/CarPageDetails.jsx";
+import { useAuth } from "./hooks/useAuth";
 
 const ProtectedRoute = ({ children }) => {
   const location = useLocation();
-  const token = localStorage.getItem("token");
-  if (!token) {
+  const { isLoggedIn, loading } = useAuth(); 
+  if (loading) {
+    return null;
+  }
+  if (!isLoggedIn) {
     return (
       <Navigate
         to="/login"
@@ -24,6 +28,18 @@ const ProtectedRoute = ({ children }) => {
   }
   return children;
 };
+
+const RedirectIfAuthenticated = ({ children }) => {
+  const { isLoggedIn, loading } = useAuth();
+  if (loading) {
+    return null;
+  }
+  if (isLoggedIn) {
+    return <Navigate to="/" replace />;
+  }
+  return children;
+};
+
 
 const App = () => {
   const [showButton, setShowButton] = useState(false);
@@ -43,12 +59,27 @@ const App = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  
   return (
     <>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route
+          path="/login"
+          element={
+            <RedirectIfAuthenticated>
+              <Login />
+            </RedirectIfAuthenticated>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <RedirectIfAuthenticated>
+              <SignUp />
+            </RedirectIfAuthenticated>
+          }
+        />
         <Route path="/contact" element={<Contact />} />
         <Route path="/cars" element={<Cars />} />
 
@@ -64,7 +95,7 @@ const App = () => {
       {showButton && (
         <button
           onClick={scrollUp}
-          className="fixed bottom-8 right-8 p-3 rounded-full from-orange-600 to-orange-700 text-white shadow-lg hover:opacity-90 transition"
+          className="fixed cursor-pointer bottom-5 right-5 p-3 rounded-full bg-gradient-to-r from-orange-600 to-orange-700 text-white shadow-lg hover:opacity-90 transition z-10"
         >
           <FaArrowUp size={22} />
         </button>

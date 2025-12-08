@@ -3,5 +3,4 @@ export const navLinks = [
   { to: "/cars", label: "Cars" },
   { to: "/about", label: "About Us" },
   { to: "/contact", label: "Contact" },
-  { to: "/bookings", label: "My Bookings" },
 ];

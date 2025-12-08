@@ -28,7 +28,7 @@ const carsData = [
     images: [C1],
     description: "High-performance luxury electric sedan with instant torque and cutting-edge tech.",
     mileage: "Unlimited",
-    deleted: false,
+    
   },
   {
     id: 8,
@@ -46,7 +46,7 @@ const carsData = [
     images: [C2],
     description: "Iconic performance sedan combining luxury comfort and track-ready power.",
     mileage: "22 MPG",
-    deleted: false,
+    
   },
   {
     id: 9,
@@ -64,7 +64,7 @@ const carsData = [
     images: [C3],
     description: "Legendary off-roader with a boxy design and ultra-luxurious interior.",
     mileage: "18 MPG",
-    deleted: false,
+    
   },
   {
     id: 10,
@@ -82,7 +82,7 @@ const carsData = [
     images: [C4],
     description: "Exotic mid-engine sports car with thrilling sound and sharp handling.",
     mileage: "15 MPG",
-    deleted: false,
+    
   },
   {
     id: 11,
@@ -100,7 +100,7 @@ const carsData = [
     images: [C5],
     description: "Sleek premium SUV blending minimalist design with refined comfort.",
     mileage: "28 MPG",
-    deleted: false,
+    
   },
   {
     id: 12,
@@ -118,7 +118,7 @@ const carsData = [
     images: [C6],
     description: "Iconic rear-engined sports car with razor-sharp dynamics.",
     mileage: "23 MPG",
-    deleted: false,
+    
   },
   {
     id: 13,
@@ -136,7 +136,7 @@ const carsData = [
     images: [C7],
     description: "Aggressive, high-revving supercar built for drama and performance.",
     mileage: "13 MPG",
-    deleted: false,
+    
   },
   {
     id: 14,
@@ -154,7 +154,7 @@ const carsData = [
     images: [C8],
     description: "Track-focused supercar celebrating Ferrari’s V8 heritage.",
     mileage: "15 MPG",
-    deleted: false,
+    
   },
   {
     id: 15,
@@ -172,7 +172,7 @@ const carsData = [
     images: [C9],
     description: "Lightweight carbon-fiber supercar with brutal acceleration.",
     mileage: "14 MPG",
-    deleted: false,
+    
   },
   {
     id: 16,
@@ -190,7 +190,7 @@ const carsData = [
     images: [C10],
     description: "Stylish British sports coupé with a distinctive exhaust note.",
     mileage: "21 MPG",
-    deleted: false,
+    
   },
   {
     id: 17,
@@ -208,7 +208,7 @@ const carsData = [
     images: [C11],
     description: "Mid-engine American icon delivering supercar performance and value.",
     mileage: "19 MPG",
-    deleted: false,
+    
   },
   {
     id: 18,
@@ -226,7 +226,7 @@ const carsData = [
     images: [C12],
     description: "Classic muscle car with roaring V8 and aggressive styling.",
     mileage: "18 MPG",
-    deleted: false,
+    
   },
 ];
 

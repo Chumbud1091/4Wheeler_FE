@@ -125,7 +125,7 @@ const CarCard = ({
       <div className={styles.borderOverlay}></div>
       <div className={styles.priceBadge}>
         <span className={styles.priceText}>
-          ₹{car.dailyRate ?? car.price ?? 0}/day
+          ₹{car.price ?? 0}
         </span>
       </div>
 
@@ -162,17 +162,14 @@ const CarCard = ({
             {
               icon: Fuel,
               value: car.fuelType || "Gasoline",
-              label: "Fuel",
             },
             {
               icon: Gauge,
               value: car.mileage ? `${car.mileage}` : "—",
-              label: "Mileage",
             },
             {
               icon: CheckCircle,
               value: car.transmission || "Auto",
-              label: "Trans",
             },
           ].map((spec, i) => (
             <div key={i} className={styles.specItem}>

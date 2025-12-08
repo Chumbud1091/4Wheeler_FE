@@ -21,7 +21,7 @@ const carsData = [
     horsepower: 139,
     images: [HC1],
     description: "Reliable, fuel-efficient commuter.",
-    deleted: false,
+    
     mileage: "30 MPG",
   },
   {
@@ -39,7 +39,7 @@ const carsData = [
     horsepower: 158,
     images: [HC2],
     description: "Sporty handling with modern tech.",
-    deleted: false,
+    
     mileage: "32 MPG",
   },
   {
@@ -57,7 +57,7 @@ const carsData = [
     horsepower: 147,
     images: [HC3],
     description: "Practical hatch with punchy engine.",
-    deleted: false,
+    
     mileage: "29 MPG",
   },
   {
@@ -75,7 +75,7 @@ const carsData = [
     horsepower: 147,
     images: [HC4],
     description: "Smooth ride, lots of tech features.",
-    deleted: false,
+    
     mileage: "33 MPG",
   },
   {
@@ -93,7 +93,7 @@ const carsData = [
     horsepower: 188,
     images: [HC5],
     description: "Comfortable and spacious daily driver.",
-    deleted: false,
+    
     mileage: "31 MPG",
   },
   {
@@ -111,7 +111,7 @@ const carsData = [
     horsepower: 137,
     images: [HC6],
     description: "Efficient cruiser with solid handling.",
-    deleted: false,
+    
     mileage: "34 MPG",
   },
 ];

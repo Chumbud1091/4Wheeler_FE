@@ -2,11 +2,12 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import client from "../../services/client";
 import { carPageStyles as styles } from "../../assets/dummyStyles";
-import { FaCar, FaGasPump, FaArrowRight, FaTachometerAlt, FaUserFriends, FaShieldAlt } from "react-icons/fa";
+import UserNavBar from "../UI/NavBar/UserNavBar";
 import CarCardSkeleton from "../UI/CarComponents/CarCardSkeleton";
 import CarCard from "../UI/CarComponents/CarCard";
 import carsData from "../../assets/carsData";
 import { toastError } from "../utils/toastUtils";
+import Footer from "../UI/Footer/Footer";
 
 const limit = 12;
 
@@ -38,16 +39,16 @@ const Cars = () => {
       const res = await client.get("/api/cars", {
         params: { limit },
         signal: ctrl.signal,
-      }); 
+      });
       if (res?.data?.data?.length > 0) {
         setCars(res.data.data);
         return;
       }
       console.warn("API returned empty data. Using fallback carsData.");
-      setCars(carsData.slice(0,limit));
+      setCars(carsData.slice(0, limit));
     } catch (err) {
       console.error("Error fetching cars, using fallback data:", err);
-      setCars(carsData.slice(0,limit));
+      setCars(carsData.slice(0, limit));
       setError("");
       toastError(err?.response?.data?.message || err.message || "Failed to load cars")
     } finally {
@@ -74,60 +75,62 @@ const Cars = () => {
   };
 
   return (
-    <div className={styles.pageContainer}>
-      <div className={styles.contentContainer}>
-        <div className={styles.headerContainer}>
-          <div className={styles.headerDecoration}></div>
-          <h1 className={styles.title}>Premium Car Collection</h1>
-          <p className={styles.subtitle}>
-            Discover our exclusive fleet of luxury vehicles. Each car
-            is meticulously maintained and ready for your journey.
-          </p>
+    <>
+      <UserNavBar />
+      <div className={styles.pageContainer}>
+        <div className={styles.contentContainer}>
+          <div className={styles.headerContainer}>
+            <div className={styles.headerDecoration}></div>
+            <h1 className={styles.title}>Premium Car Collection</h1>
+            <p className={styles.subtitle}>
+              Discover our exclusive fleet of luxury vehicles. Each car
+              is meticulously maintained and ready for your journey.
+            </p>
+          </div>
+          <div className={styles.gridContainer}>
+            {loading &&
+              Array.from({ length: limit }).map((_, idx) => (
+                <CarCardSkeleton
+                  key={`s-${idx}`}
+                  index={idx}
+                  styles={styles}
+                />
+              ))}
+
+            {!loading && error && (
+              <div className="col-span-full text-center text-red-600">
+                {error}
+              </div>
+            )}
+
+            {!loading && !error && cars.length === 0 && (
+              <div className="col-span-full text-center">
+                No cars available.
+              </div>
+            )}
+
+            {!loading &&
+              !error &&
+              cars.map((car, idx) => (
+                <CarCard
+                  key={car._id || car.id || idx}
+                  car={car}
+                  index={idx}
+                  styles={styles}
+                  animateCards={animateCards}
+                  hoveredCard={hoveredCard}
+                  setHoveredCard={setHoveredCard}
+                  onBook={handleBook}
+                />
+              ))}
+          </div>
+
+          <div className={styles.decor1}></div>
+          <div className={styles.decor2}></div>
         </div>
-
-        {/* Grid */}
-        <div className={styles.gridContainer}>
-          {loading &&
-            Array.from({ length: limit }).map((_, idx) => (
-              <CarCardSkeleton
-                key={`s-${idx}`}
-                index={idx}
-                styles={styles} 
-              />
-            ))}
-
-          {!loading && error && (
-            <div className="col-span-full text-center text-red-600">
-              {error}
-            </div>
-          )}
-
-          {!loading && !error && cars.length === 0 && (
-            <div className="col-span-full text-center">
-              No cars available.
-            </div>
-          )}
-
-          {!loading &&
-            !error &&
-            cars.map((car, idx) => (
-              <CarCard
-                key={car._id || car.id || idx}
-                car={car}
-                index={idx}
-                styles={styles}          
-                animateCards={animateCards}
-                hoveredCard={hoveredCard}
-                setHoveredCard={setHoveredCard}
-                onBook={handleBook}
-              />
-            ))}
-        </div>
-
-        <div className={styles.decor1}></div>
-        <div className={styles.decor2}></div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 

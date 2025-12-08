@@ -60,8 +60,8 @@ const CarPageDetails = () => {
           console.error("Failed to fetch car:", err);
           setCarError(
             err?.response?.data?.message ||
-              err.message ||
-              "Failed to load car"
+            err.message ||
+            "Failed to load car"
           );
         }
       } finally {
@@ -82,11 +82,9 @@ const CarPageDetails = () => {
   if (!car && loadingCar) {
     return <div className="p-6 text-white">Loading car...</div>;
   }
-
   if (!car && carError) {
     return <div className="p-6 text-red-400">{carError}</div>;
   }
-
   if (!car) {
     return <div className="p-6 text-white">Car not found.</div>;
   }
@@ -98,7 +96,7 @@ const CarPageDetails = () => {
     "Unnamed car";
 
   const category = car.category || car.type || "Sedan";
-  const pricePerDay = Number(car.dailyRate ?? car.price ?? 0) || 0;
+  const price = Number(car.price ?? 0);
   const seats = car.seats ?? 4;
   const fuel = car.fuelType || car.fuel || "Gasoline";
   const transmissionLabel = car.transmission || "Automatic";
@@ -106,6 +104,7 @@ const CarPageDetails = () => {
   const horsepower = car.horsepower;
   const color = car.color || "";
   const year = car.year;
+  const listedDate = car.createdAt ? new Date(car.createdAt) : null;
 
   const carImages = [
     ...(Array.isArray(car.images) ? car.images : []),
@@ -160,8 +159,7 @@ const CarPageDetails = () => {
 
             <h1 className={carDetailStyles.carName}>{displayName}</h1>
             <p className={carDetailStyles.carPrice}>
-              ${pricePerDay}{" "}
-              <span className={carDetailStyles.pricePerDay}>/ day</span>
+              ${price.toLocaleString()}
             </p>
 
             <div className="mt-2 text-sm text-gray-300 flex flex-wrap gap-3">
@@ -232,44 +230,25 @@ const CarPageDetails = () => {
 
             <div className={carDetailStyles.aboutSection}>
               <h2 className={carDetailStyles.aboutTitle}>About this car</h2>
+
               <p className={carDetailStyles.aboutText}>
-                Experience luxury in the {displayName}.{" "}
-                {year && <>This model year is {year}. </>}
-                With its {transmissionLabel.toLowerCase()} transmission and
-                seating for {seats}, every journey is exceptional.
-              </p>
-              <p className={carDetailStyles.aboutText}>
-                {car.description ||
-                  "This car combines performance and comfort for an unforgettable drive."}
+                {year && <>Model Year: {year}. </>}
+                Engine: {engine || "N/A"} {horsepower && `• ${horsepower} HP`}.
               </p>
 
-              <div className="mt-4 grid grid-cols-2 gap-3">
-                <div className="flex items-center">
-                  <FaCheckCircle className="text-green-400 mr-2 text-sm" />
-                  <span className="text-gray-300 text-sm">
-                    Free cancellation
-                  </span>
-                </div>
-                <div className="flex items-center">
-                  <FaCheckCircle className="text-green-400 mr-2 text-sm" />
-                  <span className="text-gray-300 text-sm">
-                    24/7 Roadside assistance
-                  </span>
-                </div>
-                <div className="flex items-center">
-                  <FaCheckCircle className="text-green-400 mr-2 text-sm" />
-                  <span className="text-gray-300 text-sm">
-                    Unlimited mileage
-                  </span>
-                </div>
-                <div className="flex items-center">
-                  <FaCheckCircle className="text-green-400 mr-2 text-sm" />
-                  <span className="text-gray-300 text-sm">
-                    Collision damage waiver
-                  </span>
-                </div>
-              </div>
+              <p className={carDetailStyles.aboutText}>
+                {car.description ||
+                  "This vehicle offers a refined balance of performance and comfort."}
+              </p>
+
+              {/* NEW: LISTED DATE */}
+              {listedDate && (
+                <p className={carDetailStyles.aboutText}>
+                  Listed on: {listedDate.toLocaleDateString()}
+                </p>
+              )}
             </div>
+
           </div>
         </div>
       </div>
