@@ -18,7 +18,11 @@ const ProtectedRoute = ({ children }) => {
   const location = useLocation();
   const { isLoggedIn, loading } = useAuth();
   if (loading) {
-    return null;
+      return (
+    <div className="w-full h-screen flex items-center justify-center text-white">
+      Loading...
+    </div>
+  );
   }
   if (!isLoggedIn) {
     return (
@@ -35,11 +39,7 @@ const ProtectedRoute = ({ children }) => {
 const RedirectIfAuthenticated = ({ children }) => {
   const { isLoggedIn, loading } = useAuth();
   if (loading) {
-    return (
-      <div className={s.loadingSpinner}>
-        Loading...
-      </div>
-    );
+    return null;
   }
   if (isLoggedIn) {
     return <Navigate to="/" replace />;
