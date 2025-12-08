@@ -2,6 +2,7 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import { FaArrowUp } from "react-icons/fa";
+import { loadingSpinner } from "./assets/dummyStyles";
 
 import Home from "./components/pages/Home";
 import Login from "./components/pages/Login.jsx";
@@ -15,7 +16,7 @@ import { useAuth } from "./hooks/useAuth";
 
 const ProtectedRoute = ({ children }) => {
   const location = useLocation();
-  const { isLoggedIn, loading } = useAuth(); 
+  const { isLoggedIn, loading } = useAuth();
   if (loading) {
     return null;
   }
@@ -34,7 +35,11 @@ const ProtectedRoute = ({ children }) => {
 const RedirectIfAuthenticated = ({ children }) => {
   const { isLoggedIn, loading } = useAuth();
   if (loading) {
-    return null;
+    return (
+      <div className={loadingSpinner}>
+        Loading...
+      </div>
+    );
   }
   if (isLoggedIn) {
     return <Navigate to="/" replace />;
@@ -61,7 +66,7 @@ const App = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  
+
   return (
     <>
       <Routes>
