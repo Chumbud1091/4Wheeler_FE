@@ -15,16 +15,14 @@ client.interceptors.response.use(
 
       try {
         await client.post("/auth/users/refresh-token", {});
-
         return client(originalRequest);
       } catch (refreshError) {
-        window.location.href = "/login";
+        console.warn("[client] Refresh token failed, letting caller handle 403");
         return Promise.reject(refreshError);
       }
     }
     return Promise.reject(error);
   }
 );
-
 
 export default client;
