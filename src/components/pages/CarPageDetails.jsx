@@ -60,8 +60,8 @@ const CarPageDetails = () => {
           console.error("Failed to fetch car:", err);
           setCarError(
             err?.response?.data?.message ||
-            err.message ||
-            "Failed to load car"
+              err.message ||
+              "Failed to load car"
           );
         }
       } finally {
@@ -84,7 +84,7 @@ const CarPageDetails = () => {
   }
   if (!car && carError) {
     return <div className="p-6 text-red-400">{carError}</div>;
-  }
+  } 
   if (!car) {
     return <div className="p-6 text-white">Car not found.</div>;
   }
@@ -233,15 +233,14 @@ const CarPageDetails = () => {
 
               <p className={carDetailStyles.aboutText}>
                 {year && <>Model Year: {year}. </>}
-                Engine: {engine || "N/A"} {horsepower && `• ${horsepower} HP`}.
+                Engine: {engine || "N/A"} {horsepower && `• ${horsepower} HP`}.  
               </p>
 
               <p className={carDetailStyles.aboutText}>
                 {car.description ||
                   "This vehicle offers a refined balance of performance and comfort."}
               </p>
-
-              {/* NEW: LISTED DATE */}
+                  
               {listedDate && (
                 <p className={carDetailStyles.aboutText}>
                   Listed on: {listedDate.toLocaleDateString()}

@@ -80,14 +80,14 @@ const App = () => {
             </RedirectIfAuthenticated>
           }
         />
-        <Route path="/contact" element={<Contact />} />
         <Route path="/cars" element={<Cars />} />
+        <Route path="/cars/:id" element={<CarPageDetails />} />
 
         <Route
-          path="/cars/:id"
+          path="/contact"
           element={
             <ProtectedRoute>
-              <CarPageDetails />
+              <Contact />
             </ProtectedRoute>
           }
         />
