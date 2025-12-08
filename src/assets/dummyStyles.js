@@ -224,7 +224,7 @@ export const carDetailStyles = {
   carouselIndicators: "absolute bottom-4 right-4 flex space-x-2",
   carouselIndicator: (active) => `w-3 h-3 rounded-full ${active ? 'bg-orange-500' : 'bg-gray-500'}`,
   carName: "text-2xl sm:text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-500",
-  carPrice: "text-xl sm:text-2xl md:text-3xl font-bold text-green-400",
+  carPrice: "text-xl sm:text-2xl md:text-3xl font-bold text-white mt-1",
   pricePerDay: "text-base sm:text-lg font-normal text-gray-400",
   specsGrid: "grid grid-cols-2 sm:grid-cols-4 gap-4",
   specCard: "flex flex-col items-center bg-gray-800/60 backdrop-blur-sm p-3 sm:p-4 rounded-xl border border-gray-700 hover:border-orange-500 transition-all",

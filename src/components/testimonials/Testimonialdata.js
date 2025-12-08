@@ -1,31 +1,30 @@
-// src/data/testimonialsData.js
 const testimonials = [
   {
     id: 1,
     name: "Sarah Johnson",
-    role: "Business Traveler",
+    role: "New Car Buyer",
     comment:
-      "The BMW 5 Series was impeccable! Smooth ride and excellent service with ample space. Will definitely rent again.",
+      "The BMW 5 Series at the showroom was spotless and exactly as described. The sales consultant was knowledgeable and guided me through every detail. Truly a premium buying experience.",
     rating: 5,
     car: "BMW 5 Series",
   },
   {
     id: 2,
     name: "Michael Chen",
-    role: "Family Vacation",
+    role: "Returning Customer",
     comment:
-      "Perfect family Toyota Highlander with ample space. Clean, well-maintained, and great value for money.",
+      "Purchased a Toyota Highlander for my family. The staff was professional, transparent with pricing, and the vehicle condition was excellent. Very satisfied with the entire process.",
     rating: 4,
     car: "Toyota Highlander",
   },
   {
     id: 3,
     name: "Emma Rodriguez",
-    role: "Road Trip Enthusiast",
+    role: "First-Time Buyer",
     comment:
-      "Convertible Ford Mustang made our coastal drive unforgettable! 24/7 support was a lifesaver and value for money. .",
+      "I bought a Ford Mustang here and the experience exceeded expectations. The showroom team explained everything clearly, from financing to delivery. The car was in perfect condition.",
     rating: 5,
-    car: "Ford Mustang ",
+    car: "Ford Mustang",
   },
 ];
 

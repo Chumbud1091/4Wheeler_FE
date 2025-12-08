@@ -1,69 +1,6 @@
-import {
-  ArrowRight,
-  Users,
-  Fuel,
-  Gauge,
-  CheckCircle,
-} from "lucide-react";
-import {
-  computeEffectiveAvailability,
-  computeAvailableMeta,
-  formatDate,
-  plural,
-  isBookDisabled,
-} from "../../utils/availabilityUtils";
-
-const renderAvailabilityBadge = (effective) => {
-  if (!effective) return null;
-
-  if (effective.state === "booked") {
-    const meta = effective.until
-      ? computeAvailableMeta(effective.until)
-      : null;
-
-    return (
-      <div className="flex flex-col items-end">
-        <span className="px-2 py-1 text-xs rounded-md bg-red-50 text-red-700 font-semibold">
-          Booked
-          {meta?.availableIso &&
-            ` — available on ${formatDate(meta.availableIso)}`}
-        </span>
-
-        {effective.until && (
-          <small className="text-xs text-gray-400 mt-1">
-            until {formatDate(effective.until)}
-          </small>
-        )}
-      </div>
-    );
-  }
-
-  if (effective.state === "available_until_reservation") {
-    const d = Number(effective.daysAvailable ?? -1);
-
-    return (
-      <div className="flex flex-col items-end">
-        <span className="px-2 py-1 text-xs rounded-md bg-amber-50 text-amber-800 font-semibold">
-          {d >= 0
-            ? `Available — reserved in ${plural(d, "day")}`
-            : "Available"}
-        </span>
-
-        {effective.nextBookingStarts && (
-          <small className="text-xs text-gray-400 mt-1">
-            from {formatDate(effective.nextBookingStarts)}
-          </small>
-        )}
-      </div>
-    );
-  }
-
-  return (
-    <span className="px-2 py-1 text-xs rounded-md bg-green-50 text-green-700">
-      Available
-    </span>
-  );
-};
+import React from "react";
+import { Link } from "react-router-dom";
+import { ArrowRight, Users, Fuel, Gauge, CheckCircle } from "lucide-react";
 
 const CarCard = ({
   car,
@@ -82,29 +19,23 @@ const CarCard = ({
     "Unnamed Car";
 
   const patternStyle =
-    styles.cardPatterns && styles.cardPatterns.length
+    styles.cardPatterns?.length
       ? styles.cardPatterns[index % styles.cardPatterns.length]
       : "";
+
   const borderStyle =
-    styles.borderGradients && styles.borderGradients.length
+    styles.borderGradients?.length
       ? styles.borderGradients[index % styles.borderGradients.length]
       : "";
 
-  const effectiveAvailability = computeEffectiveAvailability(car);
-  const disabled = isBookDisabled(car, effectiveAvailability);
   const imageSrc = car.images?.[0];
-  
+
   const transform =
     animateCards === false
       ? "translateY(40px)"
       : hoveredCard === carId
       ? "rotate(0.5deg)"
       : "none";
-
-  const handleClickBook = () => {
-    if (disabled) return;
-    onBook(car);
-  };
 
   return (
     <div
@@ -123,14 +54,9 @@ const CarCard = ({
       }}
     >
       <div className={styles.borderOverlay}></div>
-      <div className={styles.priceBadge}>
-        <span className={styles.priceText}>
-          ₹{car.price ?? 0}
-        </span>
-      </div>
 
-      <div className="absolute right-4 top-4 z-20">
-        {renderAvailabilityBadge(effectiveAvailability)}
+      <div className={styles.priceBadge}>
+        <span className={styles.priceText}>${car.price ?? 0}</span>
       </div>
 
       <div className={styles.imageContainer}>
@@ -159,30 +85,13 @@ const CarCard = ({
         <div className={styles.specsGrid}>
           {[
             { icon: Users, value: car.seats || "4", label: "Seats" },
-            {
-              icon: Fuel,
-              value: car.fuelType || "Gasoline",
-            },
-            {
-              icon: Gauge,
-              value: car.mileage ? `${car.mileage}` : "—",
-            },
-            {
-              icon: CheckCircle,
-              value: car.transmission || "Auto",
-            },
+            { icon: Fuel, value: car.fuelType || "Gasoline" },
+            { icon: Gauge, value: car.mileage ? `${car.mileage}` : "—" },
+            { icon: CheckCircle, value: car.transmission || "Auto" },
           ].map((spec, i) => (
             <div key={i} className={styles.specItem}>
-              <div
-                className={styles.specIconContainer(
-                  hoveredCard === carId
-                )}
-              >
-                <spec.icon
-                  className={styles.specIcon(
-                    hoveredCard === carId
-                  )}
-                />
+              <div className={styles.specIconContainer(hoveredCard === carId)}>
+                <spec.icon className={styles.specIcon(hoveredCard === carId)} />
               </div>
               <span className={styles.specValue}>{spec.value}</span>
               <span className={styles.specLabel}>{spec.label}</span>
@@ -191,23 +100,13 @@ const CarCard = ({
         </div>
 
         <button
-          onClick={handleClickBook}
-          disabled={disabled}
-          className={`${styles.bookButton} ${
-            disabled
-              ? "opacity-60 cursor-not-allowed"
-              : "hover:shadow-md"
-          }`}
-          aria-disabled={disabled}
-          title={
-            disabled
-              ? "This car is currently booked or unavailable"
-              : "Book this car"
-          }
+          onClick={() => onBook(car)}
+          className={`${styles.bookButton} hover:shadow-md`}
+          title="View details"
         >
           <span className={styles.buttonText}>
-            {disabled ? "Unavailable" : "Book Now"}
-            <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            View Details
+            <ArrowRight className="ml-2 w-4 h-4" />
           </span>
         </button>
       </div>

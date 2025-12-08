@@ -7,11 +7,16 @@ import {
   FaCheckCircle,
   FaArrowLeft,
   FaCar,
+  FaHeart,
+  FaRegHeart,
 } from "react-icons/fa";
 
 import client from "../../services/client";
 import { carDetailStyles } from "../../assets/dummyStyles";
 import carsData from "../../assets/carsData";
+import { useAuth } from "../../hooks/useAuth";
+import { toast } from "react-toastify";
+import { toastError, toastSuccess } from "../utils/toastUtils";
 
 const CarPageDetails = () => {
   const { id } = useParams();
@@ -22,8 +27,25 @@ const CarPageDetails = () => {
   const [loadingCar, setLoadingCar] = useState(false);
   const [carError, setCarError] = useState("");
   const [currentImage, setCurrentImage] = useState(0);
+  const { currentUser, isLoggedIn } = useAuth();
+  const [isFavorite, setIsFavorite] = useState(false);
+
 
   const fetchControllerRef = useRef(null);
+
+  useEffect(() => {
+    const checkFavorite = async () => {
+      if (!isLoggedIn || !car?._id) return;
+
+      try {
+        const res = await client.get("/auth/users/profile");
+        const favs = res.data?.user?.favorites || [];
+        setIsFavorite(favs.some(f => f._id === car._id));
+      } catch { }
+    };
+    checkFavorite();
+  }, [car, isLoggedIn]);
+
 
   useEffect(() => {
     if (car) {
@@ -60,8 +82,8 @@ const CarPageDetails = () => {
           console.error("Failed to fetch car:", err);
           setCarError(
             err?.response?.data?.message ||
-              err.message ||
-              "Failed to load car"
+            err.message ||
+            "Failed to load car"
           );
         }
       } finally {
@@ -84,7 +106,7 @@ const CarPageDetails = () => {
   }
   if (!car && carError) {
     return <div className="p-6 text-red-400">{carError}</div>;
-  } 
+  }
   if (!car) {
     return <div className="p-6 text-white">Car not found.</div>;
   }
@@ -119,6 +141,25 @@ const CarPageDetails = () => {
     carImages[currentImage] ||
     carImages[0] ||
     car.image
+
+  const toggleFavorite = async () => {
+    if (!isLoggedIn) {
+      toastError("Please log in to manage favorites.");
+      return;
+    }
+    try {
+      if (isFavorite) {
+        await client.delete(`/api/cars/favorites/${car._id}`);
+        setIsFavorite(false);
+      } else {
+        await client.post(`/api/cars/favorites/${car._id}`);
+        setIsFavorite(true);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Failed to update favorite");
+    }
+  };
 
   return (
     <div className={carDetailStyles.pageContainer}>
@@ -157,7 +198,15 @@ const CarPageDetails = () => {
               )}
             </div>
 
-            <h1 className={carDetailStyles.carName}>{displayName}</h1>
+            <h1 className={carDetailStyles.carName}>
+              <span>{displayName}</span>
+              <button
+                onClick={toggleFavorite}
+                className="text-red-500 text-2xl ml-3 hover:scale-110 transition"
+              >
+                {isFavorite ? <FaHeart /> : <FaRegHeart />}
+              </button>
+            </h1>
             <p className={carDetailStyles.carPrice}>
               ${price.toLocaleString()}
             </p>
@@ -233,14 +282,14 @@ const CarPageDetails = () => {
 
               <p className={carDetailStyles.aboutText}>
                 {year && <>Model Year: {year}. </>}
-                Engine: {engine || "N/A"} {horsepower && `• ${horsepower} HP`}.  
+                Engine: {engine || "N/A"} {horsepower && `• ${horsepower} HP`}.
               </p>
 
               <p className={carDetailStyles.aboutText}>
                 {car.description ||
                   "This vehicle offers a refined balance of performance and comfort."}
               </p>
-                  
+
               {listedDate && (
                 <p className={carDetailStyles.aboutText}>
                   Listed on: {listedDate.toLocaleDateString()}

@@ -83,8 +83,7 @@ const Cars = () => {
             <div className={styles.headerDecoration}></div>
             <h1 className={styles.title}>Premium Car Collection</h1>
             <p className={styles.subtitle}>
-              Discover our exclusive fleet of luxury vehicles. Each car
-              is meticulously maintained and ready for your journey.
+              Discover our exclusive experience of luxury vehicles. Each car is meticulously maintained and ready for your journey.
             </p>
           </div>
           <div className={styles.gridContainer}>

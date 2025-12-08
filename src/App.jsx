@@ -6,6 +6,8 @@ import { FaArrowUp } from "react-icons/fa";
 import Home from "./components/pages/Home";
 import Login from "./components/pages/Login.jsx";
 import Contact from "./components/pages/Contact.jsx";
+import About from "./components/pages/About.jsx";
+import Profile from "./components/pages/Profile.jsx";
 import SignUp from "./components/pages/SignUp.jsx";
 import Cars from "./components/pages/Cars.jsx";
 import CarPageDetails from "./components/pages/CarPageDetails.jsx";
@@ -80,9 +82,17 @@ const App = () => {
             </RedirectIfAuthenticated>
           }
         />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/cars" element={<Cars />} />
         <Route path="/cars/:id" element={<CarPageDetails />} />
-
+        <Route path="/about" element={<About />} />
         <Route
           path="/contact"
           element={

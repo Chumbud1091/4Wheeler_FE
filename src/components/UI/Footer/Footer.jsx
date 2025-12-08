@@ -29,8 +29,9 @@ const Footer = () => {
               </div>
             </Link>
             <p className={styles.description}>
-              Premium car rental service with the latest models and exceptional
-              customer services. Drive your dream car today!
+              Premium auto showroom offering a curated selection of new and certified
+              pre-owned vehicles. Experience transparent consultation, trusted service,
+              and a seamless car-buying journey.
             </p>
 
             <div className={styles.socialIcons}>
@@ -82,13 +83,13 @@ const Footer = () => {
               </li>
             </ul>
             <div className={styles.hoursContainer}>
-            <h4 className={styles.hoursTitle}>Business Hours</h4>
-            <div className={styles.hoursText}>
-              <p>Monday - Friday: 8:00 AM - 8:00 PM</p>
-              <p>Saturday: 9:00 AM - 6:00 PM</p>
-              <p>Sunday: 10:00 AM - 4:00 PM</p>
+              <h4 className={styles.hoursTitle}>Business Hours</h4>
+              <div className={styles.hoursText}>
+                <p>Monday - Friday: 8:00 AM - 8:00 PM</p>
+                <p>Saturday: 9:00 AM - 6:00 PM</p>
+                <p>Sunday: 10:00 AM - 4:00 PM</p>
+              </div>
             </div>
-          </div>
           </div>
 
 

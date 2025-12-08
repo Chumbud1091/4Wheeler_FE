@@ -57,9 +57,8 @@ export default function HeroSleek() {
           ref={bgRef}
           className={styles.background}
           style={{
-            transform: `translate3d(${tx * 0.55}px, ${
-              ty * 0.55
-            }px, 0) scale(1.03)`,
+            transform: `translate3d(${tx * 0.55}px, ${ty * 0.55
+              }px, 0) scale(1.03)`,
             transition: "transform 220ms cubic-bezier(.2,.9,.25,1)",
           }}
         >
@@ -133,19 +132,19 @@ export default function HeroSleek() {
           <div className={styles.ctaCard}>
             <div>
               <p className={styles.subtitle}>4Wheeler</p>
-              <h3 className={styles.title}>Next-gen fleet. Instant drive</h3>
+              <h3 className={styles.title}>Next-gen showroom. Drive your dream.</h3>
               <p className={styles.description}>
-                Experience the future of car rentals with our cutting-edge
-                platform. Seamlessly book from a diverse range of vehicles and
-                hit the road in minutes.
+                From certified used vehicles to the latest models, our showroom delivers
+                reliability, quality, and customer-first service. Explore, compare, and drive
+                home the right car for your lifestyle.
               </p>
             </div>
             <div>
               <a href="/cars" className="flex items-center gap-3">
-              <button className={styles.ctaButton}>
-                <span className={styles.buttonText}>Fleet!</span></button></a>
+                <button className={styles.ctaButton}>
+                  <span className={styles.buttonText}>Fleet!</span></button></a>
             </div>
-            <span aria-hidden className={styles.outline}/>
+            <span aria-hidden className={styles.outline} />
           </div>
         </div>
       </div>
