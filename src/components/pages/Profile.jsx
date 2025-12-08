@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import client from "../services/client";
-import { useAuth } from "../hooks/useAuth";
+import client from "../../services/client";
+import { useAuth } from "../../hooks/useAuth";
 import { Link } from "react-router-dom";
 
 const Profile = () => {
