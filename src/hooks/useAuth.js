@@ -132,7 +132,7 @@ export const useAuth = () => {
     abortRef.current?.abort();
     const controller = new AbortController();
     abortRef.current = controller;
-    if (!currentUser) {
+    if (currentUser) {
       validateToken(controller.signal);
     }
   }, [validateToken, currentUser]);

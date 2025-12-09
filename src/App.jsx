@@ -37,10 +37,7 @@ const ProtectedRoute = ({ children }) => {
 };
 
 const RedirectIfAuthenticated = ({ children }) => {
-  const { isLoggedIn, loading } = useAuth();
-  if (loading) {
-    return null;
-  }
+  const { isLoggedIn } = useAuth();
   if (isLoggedIn) {
     return <Navigate to="/" replace />;
   }
