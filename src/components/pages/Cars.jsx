@@ -50,7 +50,7 @@ const Cars = () => {
         },
         signal: ctrl.signal,
       });
-
+      console.log("res.data cars/listing:", res.data);
       const { page: apiPage, pages: apiPages, total: apiTotal, cars: apiCars } =
         res.data || {};
 

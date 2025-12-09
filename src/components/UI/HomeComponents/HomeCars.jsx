@@ -39,7 +39,8 @@ const HomeCars = () => {
         },
         signal: ctrl.signal,
       });
-
+      
+      console.log("res.data cars/listing:", res.data);
       const list = Array.isArray(res?.data?.cars) ? res.data.cars : [];
 
       if (list.length === 0) {
