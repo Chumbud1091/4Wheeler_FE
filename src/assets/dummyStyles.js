@@ -66,16 +66,16 @@ export const heroStyles = {
 // assets/dummyStyles.js
 export const loginStyles = {
   pageContainer: "min-h-screen flex items-center justify-center relative overflow-hidden transition-colors duration-500 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 px-4 sm:px-6 md:px-8 text-white",
-
+  
   animatedBackground: {
     base: "absolute inset-0 z-0 overflow-hidden",
     orb1: "absolute top-1/4 left-1/5 rounded-full blur-3xl transition-all duration-1000 w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 bg-gradient-to-r from-orange-400/10 to-orange-600/10",
     orb2: "absolute top-3/4 right-1/4 rounded-full blur-3xl transition-all duration-1000 w-40 h-40 sm:w-44 sm:h-44 md:w-48 md:h-48 bg-gradient-to-r from-orange-300/10 to-orange-500/10",
     orb3: "absolute bottom-1/3 left-2/3 rounded-full blur-3xl transition-all duration-1000 w-28 h-28 sm:w-32 sm:h-32 bg-gradient-to-r from-orange-200/10 to-orange-400/10"
   },
-
+  
   backButton: "absolute top-3 left-6 z-10 flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-full transition-shadow duration-300 shadow-lg hover:shadow-xl bg-white/5 text-white hover:bg-white/10",
-
+  
   loginCard: {
     container: "w-full max-w-md sm:mt-14 z-10 transform transition-all duration-500 hover:scale-[1.02]",
     card: "relative overflow-hidden p-6 sm:p-8 rounded-3xl shadow-2xl transition-colors duration-500 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900",
@@ -87,12 +87,12 @@ export const loginStyles = {
     title: "text-2xl sm:text-3xl font-bold tracking-tight bg-gradient-to-r from-orange-300 to-white bg-clip-text text-transparent",
     subtitle: "mt-1 sm:mt-2 font-light tracking-wider text-xs sm:text-sm text-orange-300/60"
   },
-
+  
   form: {
     container: "space-y-4 sm:space-y-6",
     inputContainer: "relative z-10",
     inputWrapper: "relative",
-    inputBlur: "absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-orange-300",
+    inputBlur:"absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-orange-300",
     inputIcon: "absolute inset-y-0 left-0 pl-3 z-1 flex items-center pointer-events-none text-orange-300",
     input: "w-full pl-10 pr-3 py-3 sm:py-4 rounded-xl text-sm sm:text-base placeholder-opacity-70 border transition duration-300 focus:outline-none focus:ring-2 focus:border-transparent bg-white/5 backdrop-blur-sm text-white/90 placeholder-orange-200/40 border-white/10 focus:ring-orange-500/70",
     passwordToggle: "absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer transition-colors text-orange-300/80 hover:text-orange-200/90",
@@ -100,7 +100,7 @@ export const loginStyles = {
     buttonText: "relative cursor-pointer z-10 text-sm sm:text-base",
     buttonHover: "absolute inset-0 transition-opacity duration-300 z-0 opacity-0 group-hover:opacity-100 bg-gradient-to-r from-orange-400/50 to-orange-500/50"
   },
-
+  
   signupSection: "mt-6 pt-6 border-t border-white/10 text-center text-xs sm:text-sm",
   signupText: "text-orange-200/70",
   signupButton: "inline-block mt-2 w-full cursor-pointer px-4 py-2 rounded-xl font-medium transition-transform duration-300 transform hover:-translate-y-0.5 bg-transparent border border-orange-500/50 text-orange-300/90 hover:bg-orange-500/10 hover:text-white/90"
@@ -110,16 +110,16 @@ export const loginStyles = {
 // assets/dummyStyles.js
 export const signupStyles = {
   pageContainer: "min-h-screen flex items-center justify-center relative overflow-hidden transition-colors duration-500 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white",
-
+  
   animatedBackground: {
     base: "absolute inset-0 z-0 overflow-hidden",
     orb1: "absolute top-[10%] sm:top-1/4 left-[5%] sm:left-1/5 w-40 h-40 sm:w-52 sm:h-52 md:w-64 md:h-64 rounded-full transition-all duration-1000 bg-gradient-to-r from-orange-200/10 to-orange-400/10 blur-3xl",
     orb2: "absolute top-[75%] sm:top-3/4 right-[5%] sm:right-1/4 w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 rounded-full transition-all duration-1000 bg-gradient-to-r from-orange-200/8 to-orange-300/8 blur-3xl",
     orb3: "absolute bottom-[15%] sm:bottom-1/3 left-[65%] sm:left-2/3 w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full transition-all duration-1000 bg-gradient-to-r from-orange-100/8 to-orange-300/10 blur-3xl"
   },
-
+  
   backButton: "absolute top-4 sm:top-6 left-4 sm:left-6 z-10 flex items-center gap-1 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-full transition-all duration-300 group shadow-lg hover:shadow-xl bg-white/5 text-white hover:bg-white/10",
-
+  
   signupCard: {
     container: "w-full max-w-[90%] sm:max-w-md py-5 sm:py-7 mt-9 z-10 transform transition-all duration-500 hover:scale-[1.02] px-2 sm:px-4",
     card: "rounded-3xl shadow-2xl overflow-hidden p-4 sm:p-6 md:p-8 relative transition-all duration-500 bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-xl border border-gray-700",
@@ -131,12 +131,12 @@ export const signupStyles = {
     title: "text-2xl sm:text-3xl md:text-4xl font-bold mt-2 sm:mt-3 md:mt-4 tracking-tight bg-gradient-to-r from-orange-300 to-white bg-clip-text text-transparent",
     subtitle: "mt-1 sm:mt-2 text-xs sm:text-sm md:text-base font-light tracking-wider text-orange-300/60"
   },
-
+  
   form: {
     container: "space-y-3 sm:space-y-4 md:space-y-5",
     inputContainer: "relative z-10",
     inputWrapper: "relative",
-    inputBlur: "absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-orange-300",
+    inputBlur:"absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-orange-300",
     inputIcon: "absolute inset-y-0 left-0 pl-3 z-1 flex items-center pointer-events-none text-orange-300",
     input: "w-full pl-10 pr-3 py-2 sm:py-3 md:py-4 rounded-xl text-xs sm:text-sm placeholder-opacity-70 border focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-300 bg-white/5 backdrop-blur-sm text-white/90 placeholder-orange-200/40 border-white/10 focus:ring-orange-500/70",
     passwordToggle: "absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer transition-colors text-orange-300/80 hover:text-orange-200/90",
@@ -147,7 +147,7 @@ export const signupStyles = {
     buttonText: "relative z-10 flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base",
     buttonHover: "absolute inset-0 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0 bg-gradient-to-r from-orange-400/50 to-orange-500/50"
   },
-
+  
   signinSection: "mt-2 pt-2 sm:pt-3 border-t text-center",
   signinText: "mb-2 sm:mb-3 md:mb-4 text-xs sm:text-sm md:text-base text-orange-200/70 text-center",
   signinButton: "inline-block w-full px-3 py-2 sm:px-4 sm:py-2 md:px-6 md:py-3 rounded-xl font-medium transition-all duration-300 transform hover:-translate-y-0.5 text-xs sm:text-sm md:text-base bg-transparent border border-orange-500/50 text-orange-300/90 hover:bg-orange-500/10 hover:text-white/90 text-center"
@@ -373,45 +373,45 @@ export const contactPageStyles = {
   formGrid: "grid grid-cols-1 md:grid-cols-2 gap-3",
   inputContainer: "relative",
   inputIcon: "absolute inset-y-0 left-0 pl-3 flex items-center text-orange-400",
-  input: (isActive) => `w-full pl-10 pr-3 py-2 bg-gray-700/50 text-white rounded-lg border ${isActive ? 'border-orange-500' : 'border-gray-600'
-    } focus:outline-none focus:ring-1 focus:ring-orange-500 text-sm transition-all`,
-  select: (isActive) => `w-full pl-10 pr-3 py-2 bg-gray-700/50 cursor-pointer text-white rounded-lg border ${isActive ? 'border-orange-500' : 'border-gray-600'
-    } focus:outline-none focus:ring-1 focus:ring-orange-500 text-sm appearance-none transition-all`,
+  input: (isActive) => `w-full pl-10 pr-3 py-2 bg-gray-700/50 text-white rounded-lg border ${
+    isActive ? 'border-orange-500' : 'border-gray-600'
+  } focus:outline-none focus:ring-1 focus:ring-orange-500 text-sm transition-all`,
+  select: (isActive) => `w-full pl-10 pr-3 py-2 bg-gray-700/50 cursor-pointer text-white rounded-lg border ${
+    isActive ? 'border-orange-500' : 'border-gray-600'
+  } focus:outline-none focus:ring-1 focus:ring-orange-500 text-sm appearance-none transition-all`,
   textareaIcon: "absolute top-2.5 left-3 text-orange-400",
-  textarea: (isActive) => `w-full pl-10 pr-3 py-2 bg-gray-700/50 text-white rounded-lg border ${isActive ? 'border-orange-500' : 'border-gray-600'
-    } focus:outline-none focus:ring-1 focus:ring-orange-500 text-sm transition-all`,
+  textarea: (isActive) => `w-full pl-10 pr-3 py-2 bg-gray-700/50 text-white rounded-lg border ${
+    isActive ? 'border-orange-500' : 'border-gray-600'
+  } focus:outline-none focus:ring-1 focus:ring-orange-500 text-sm transition-all`,
   submitButton: "w-full cursor-pointer flex items-center justify-center py-2.5 bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 rounded-lg text-white font-medium text-sm shadow-md transition-all transform hover:-translate-y-0.5 group mt-2",
   whatsappIcon: "ml-2 text-lg transform group-hover:scale-110 transition-transform"
 };
 
 // assets/dummyStyles.js
 export const carPageStyles = {
-  container: "relative w-full overflow-hidden py-16 bg-black text-gray-100 min-h-screen",
-  headerContainer: "relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-16",
-  premiumBadge: "inline-flex items-center px-4 py-2 rounded-full bg-gray-800/50 backdrop-blur-sm border border-gray-700 mb-4",
-  premiumText: "text-sm font-medium text-amber-400",
-  title: "text-4xl py-2 font-[pacifico] md:text-5xl font-bold bg-clip-text text-transparent bg-orange-400 mb-4",
-  subtitle: "max-w-2xl mx-auto text-lg text-gray-400",
-  grid: "relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10",
-  card: "relative rounded-2xl overflow-hidden shadow-2xl transform-gpu transition-all duration-500 ease-out group",
-  priceBadge: "absolute top-40 md:top-50 lg:top-50 right-4 z-20 bg-gray-900/80 backdrop-blur-md text-white px-3 py-1.5 rounded-full font-bold text-sm shadow-lg flex items-center",
-  priceText: "bg-orange-400 bg-clip-text text-transparent",
-  imageContainer: "relative h-48 sm:h-52 md:h-60 overflow-hidden",
-  content: "p-6 relative z-10",
-  carName: "text-xl font-bold text-white",
-  carInfoContainer: "text-gray-400 flex items-center mt-1",
-  carTypeBadge: "bg-gray-800 text-orange-400 px-2.5 py-1 rounded-full mr-2 text-xs font-medium",
-  carYear: "text-gray-500 text-sm",
-  specsGrid: "grid grid-cols-4 gap-3 my-5",
-  specItem: "flex flex-col items-center",
-  specIconContainer: (isHovered) => `p-2.5 rounded-xl mb-1.5 transition-all ${isHovered ? 'bg-gradient-to-r from-sky-500/10 to-teal-500/10' : 'bg-gray-800'}`,
-  specIcon: (isHovered) => `w-4 h-4 ${isHovered ? 'text-orange-400' : 'text-gray-500'}`,
-  specValue: "text-xs font-medium text-gray-300",
-  specLabel: "text-[10px] text-gray-500 mt-0.5",
+  pageContainer: "relative min-h-screen py-8 pt-12 sm:py-12 md:py-16 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-b from-gray-950 to-black",
+  contentContainer: "relative z-10 max-w-7xl mx-auto",
+  headerContainer: "text-center mb-10 sm:mb-12 pt-13 md:mb-16",
+  headerDecoration: "absolute -bottom-3 -right-3 w-6 h-6 rounded-full bg-gradient-to-r from-amber-500 to-rose-500",
+  title: "relative text-3xl sm:text-4xl md:text-5xl font-bold mb-2 z-10 font-['Pacifico'] bg-orange-400 bg-clip-text text-transparent",
+  subtitle: "text-slate-400 max-w-2xl mx-auto text-sm sm:text-base",
+  gridContainer: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8 md:gap-10",
+  carCard: "group relative rounded-2xl overflow-hidden border border-slate-700 shadow-xl transition-all duration-300 hover:shadow-2xl hover:-translate-y-1",
+  glowEffect: "absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none",
+  imageContainer: "relative h-48 sm:h-52 md:h-56 overflow-hidden",
+  carImage: "w-full h-full object-cover transition-transform duration-500",
+  priceBadge: "absolute bottom-3 left-3 bg-orange-400 text-white px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium shadow-lg",
+  cardContent: "p-4 sm:p-5 md:p-6",
+  headerRow: "flex justify-between items-center mb-4",
+  carName: "text-lg sm:text-xl font-bold text-white",
+  carType: "text-sm text-orange-400",
+  specsGrid: "grid grid-cols-2 gap-3 mb-5 text-sm text-slate-300",
+  specItem: "flex items-center space-x-2",
+  specIconContainer: (isHovered) => `bg-slate-700 p-1.5 rounded-lg ${isHovered ? '' : ''}`,
+  specIcon: (isHovered) => `w-4 h-4 ${isHovered ? 'text-orange-400' : 'text-white-500'}`,
   bookButton: "metal-btn inline-flex items-center gap-3 px-5 py-3 rounded-lg font-medium transform-gpu hover:scale-[1.03] active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-sky-300 cursor-pointer",
-  buttonText: "relative z-10 flex items-center",
-  accentBlur: "absolute -top-1 -right-1 w-10 h-10 rounded-bl-full bg-sky-500/30 blur-xl",
-  borderOverlay: "absolute inset-0 rounded-2xl border border-gray-700/50 pointer-events-none",
+  buttonText: "group-hover:tracking-wider transition-all",
+  buttonIcon: "ml-3 h-4 w-4 transition-transform group-hover:translate-x-1",
 };
 
 
@@ -419,17 +419,17 @@ export const carPageStyles = {
 export const myBookingsStyles = {
   // Page container
   pageContainer: "min-h-screen bg-gradient-to-b pt-40 from-gray-900 to-black text-white py-12 px-4 sm:px-6 lg:px-8",
-
+  
   // Title
   title: "text-3xl sm:text-4xl pb-3 md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-orange-400 to-orange-500",
   subtitle: "text-gray-400 max-w-2xl mx-auto",
-
+  
   // Filter buttons
   filterButton: (isActive, type) => {
     const base = "px-4 py-2 rounded-full flex items-center gap-2 transition-all";
     if (!isActive) return `${base} bg-gray-800 text-gray-300 hover:bg-gray-700`;
-
-    switch (type) {
+    
+    switch(type) {
       case "all": return `${base} bg-orange-600 text-white`;
       case "upcoming": return `${base} bg-blue-600 text-white`;
       case "completed": return `${base} bg-green-600 text-white`;
@@ -437,15 +437,15 @@ export const myBookingsStyles = {
       default: return base;
     }
   },
-
+  
   // Loading spinner
   loadingSpinner: "animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-orange-500",
-
+  
   // Error state
   errorContainer: "text-center py-8 bg-gray-800/50 rounded-2xl border border-gray-700",
   errorText: "text-red-400",
   retryButton: "mt-4 px-4 py-2 bg-orange-600 rounded-lg text-white",
-
+  
   // Empty state
   emptyState: "text-center py-16 bg-gray-800/50 rounded-2xl border border-gray-700",
   emptyIconContainer: "mx-auto w-24 h-24 rounded-full bg-gray-800 flex items-center justify-center mb-6",
@@ -453,7 +453,7 @@ export const myBookingsStyles = {
   emptyTitle: "text-2xl font-semibold mb-2",
   emptyText: "text-gray-400 max-w-md mx-auto",
   browseButton: "inline-block mt-6 px-6 py-3 bg-gradient-to-r from-orange-600 to-orange-700 text-white rounded-lg flex items-center justify-center gap-2",
-
+  
   // Booking card
   bookingCard: "bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl overflow-hidden border border-gray-700 shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-transform",
   cardImageContainer: "relative h-48 overflow-hidden",
@@ -472,12 +472,12 @@ export const myBookingsStyles = {
   cardActions: "mt-6 pt-4 border-t border-gray-700 flex gap-3",
   viewDetailsButton: "flex-1 py-2 px-4 bg-gray-800 hover:bg-gray-700 rounded-lg flex items-center justify-center gap-2",
   bookAgainButton: "flex-1 py-2 px-4 bg-orange-600 hover:bg-orange-700 rounded-lg flex items-center justify-center gap-2",
-
+  
   // Stats cards
   statsCard: "bg-gray-800/50 p-6 rounded-2xl border border-gray-700",
   statsValue: (color) => `text-3xl font-bold ${color} mb-2`,
   statsLabel: "text-gray-400",
-
+  
   // Modal
   modalOverlay: "fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4",
   modalContainer: "bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl border border-gray-700 max-w-2xl w-full max-h-[90vh] overflow-y-auto",
