@@ -11,6 +11,7 @@ import Profile from "./components/pages/Profile.jsx";
 import SignUp from "./components/pages/SignUp.jsx";
 import Cars from "./components/pages/Cars.jsx";
 import CarPageDetails from "./components/pages/CarPageDetails.jsx";
+import Compare from "./components/pages/Compare.jsx";
 import { useAuth } from "./hooks/useAuth";
 
 const ProtectedRoute = ({ children }) => {
@@ -91,6 +92,7 @@ const App = () => {
         />
         <Route path="/cars" element={<Cars />} />
         <Route path="/cars/:id" element={<CarPageDetails />} />
+        <Route path="/compare" element={<Compare />} />
         <Route path="/about" element={<About />} />
         <Route
           path="/contact"
