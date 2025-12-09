@@ -31,7 +31,7 @@ const HomeCars = () => {
     abortRef.current = ctrl;
 
     try {
-      const res = await client.get("/api/cars/listing", {
+      const res = await client.get("cars/listing", {
         params: {
           page: 1,      
           limit,          

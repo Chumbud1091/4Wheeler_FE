@@ -66,7 +66,7 @@ const CarPageDetails = () => {
       setLoadingCar(true);
       setCarError("");
       try {
-        const res = await client.get(`/api/cars/${id}`, {
+        const res = await client.get(`/cars/${id}`, {
           signal: controller.signal,
         });
         const payload = res.data?.data ?? res.data ?? null;
@@ -145,10 +145,10 @@ const CarPageDetails = () => {
     }
     try {
       if (isFavorite) {
-        await client.delete(`/api/cars/favorites/${car._id}`);
+        await client.delete(`/cars/favorites/${car._id}`);
         setIsFavorite(false);
       } else {
-        await client.post(`/api/cars/favorites/${car._id}`);
+        await client.post(`/cars/favorites/${car._id}`);
         setIsFavorite(true);
       }
     } catch (err) {
@@ -208,7 +208,7 @@ const CarPageDetails = () => {
                       />
                     ))}
                   </div>
-                  
+
                   <button
                     onClick={() =>
                       setCurrentImage(
