@@ -2,7 +2,6 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import { FaArrowUp } from "react-icons/fa";
-import { myBookingsStyles as s } from "./assets/dummyStyles";
 
 import Home from "./components/pages/Home";
 import Login from "./components/pages/Login.jsx";

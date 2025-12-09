@@ -248,9 +248,6 @@ const Cars = () => {
               </button>
             </div>
           </div>
-
-          <div className={styles.decor1}></div>
-          <div className={styles.decor2}></div>
         </div>
       </div>
       <Footer />
