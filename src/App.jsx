@@ -92,7 +92,14 @@ const App = () => {
         />
         <Route path="/cars" element={<Cars />} />
         <Route path="/cars/:id" element={<CarPageDetails />} />
-        <Route path="/compare" element={<Compare />} />
+        <Route
+          path="/compare"
+          element={
+            <ProtectedRoute>
+              <Compare />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/about" element={<About />} />
         <Route
           path="/contact"
