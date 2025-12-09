@@ -1,6 +1,6 @@
 
 import { Link, useLocation } from "react-router-dom";
-import { FaUser, FaSignOutAlt } from "react-icons/fa";
+import { FaUser, FaSignOutAlt, FaIdBadge } from "react-icons/fa";
 import { navbarStyles as styles } from "../../../assets/dummyStyles";
 import { navLinks } from "./navLinkData.js";
 
@@ -16,7 +16,7 @@ const MobileMenu = ({ isOpen, menuRef, onClose, isLoggedIn, onLogout }) => {
     <div
       id="mobile-menu"
       ref={menuRef}
-      className={`${styles.mobileMenu.container} ${ isOpen ? styles.mobileMenu.open : styles.mobileMenu.closed }`}
+      className={`${styles.mobileMenu.container} ${isOpen ? styles.mobileMenu.open : styles.mobileMenu.closed}`}
       aria-hidden={!isOpen}
     >
       <div className={styles.mobileMenuInner}>
@@ -27,11 +27,10 @@ const MobileMenu = ({ isOpen, menuRef, onClose, isLoggedIn, onLogout }) => {
                 key={link.to}
                 to={link.to}
                 onClick={onClose}
-                className={`${styles.mobileLink.base} ${
-                  isActive(link.to)
+                className={`${styles.mobileLink.base} ${isActive(link.to)
                     ? styles.mobileLink.active
                     : styles.mobileLink.inactive
-                }`}
+                  }`}
               >
                 {link.label}
               </Link>
@@ -42,10 +41,21 @@ const MobileMenu = ({ isOpen, menuRef, onClose, isLoggedIn, onLogout }) => {
 
           <div className="pt-1">
             {isLoggedIn ? (
-              <button onClick={onLogout} className={styles.mobileAuthButton}>
-                <FaSignOutAlt className="mr-3 text-base" />
-                Logout
-              </button>
+              <div className="flex flex-col gap-2">
+                <Link
+                  to="/profile"
+                  onClick={onClose}
+                  className={styles.mobileAuthButton}
+                >
+                  <FaIdBadge className="mr-3 text-base" />
+                  Profile
+                </Link>
+
+                <button onClick={onLogout} className={styles.mobileAuthButton}>
+                  <FaSignOutAlt className="mr-3 text-base" />
+                  Logout
+                </button>
+              </div>
             ) : (
               <Link
                 to="/login"
