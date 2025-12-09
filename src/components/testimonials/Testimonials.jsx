@@ -84,20 +84,20 @@ const Testimonials = () => {
           <div className={styles.statsContainer}>
             <div className={styles.statsGrid}>
               <div className={styles.statItem}>
-                <div className={styles.statValue(styles.statColors.value[0])}>20k+</div>
-                <div className={styles.statLabel(styles.statColors.label[0])}>Happy Customer</div>
+                <div className={styles.statValue(styles.statColors)}>20k+</div>
+                <div className={styles.statLabel(styles.statColors)}>Happy Customer</div>
               </div>
               <div className={styles.statItem}>
-                <div className={styles.statValue(styles.statColors.value[1])}>10k+</div>
-                <div className={styles.statLabel(styles.statColors.label[1])}>Luxury Vehicals</div>
+                <div className={styles.statValue(styles.statColors)}>10k+</div>
+                <div className={styles.statLabel(styles.statColors)}>Luxury Vehicals</div>
               </div>
               <div className={styles.statItem}>
-                <div className={styles.statValue(styles.statColors.value[2])}>24/7</div>
-                <div className={styles.statLabel(styles.statColors.label[2])}>Support</div>
+                <div className={styles.statValue(styles.statColors)}>24/7</div>
+                <div className={styles.statLabel(styles.statColors)}>Support</div>
               </div>
               <div className={styles.statItem}>
-                <div className={styles.statValue(styles.statColors.value[3])}>20+</div>
-                <div className={styles.statLabel(styles.statColors.label[3])}>Location</div>
+                <div className={styles.statValue(styles.statColors)}>20+</div>
+                <div className={styles.statLabel(styles.statColors)}>Location</div>
               </div>
             </div>
           </div>

@@ -279,19 +279,19 @@ const CarPageDetails = () => {
                   Icon: FaGasPump,
                   label: "Fuel",
                   value: fuel,
-                  color: "text-green-400",
+                  color: "text-orange-400",
                 },
                 {
                   Icon: FaTachometerAlt,
                   label: "Engine",
                   value: engine || "—",
-                  color: "text-yellow-400",
+                  color: "text-orange-400",
                 },
                 {
                   Icon: FaCheckCircle,
                   label: "Transmission",
                   value: transmissionLabel,
-                  color: "text-purple-400",
+                  color: "text-orange-400",
                 },
               ].map((spec, i) => (
                 <div key={i} className={carDetailStyles.specCard}>

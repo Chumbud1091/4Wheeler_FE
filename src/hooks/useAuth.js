@@ -1,4 +1,4 @@
-import { useCallback, useRef, useEffect } from "react";
+import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import client from "../services/client";
 import {
@@ -53,7 +53,7 @@ export const useAuth = () => {
       dispatch(logInStart());
       try {
         const res = await client.post(GOOGLE_ENDPOINT, { idToken });
-        
+
         const appUser = res.data || fallbackProfile || null;
         dispatch(logInSuccess(appUser));
 
@@ -98,9 +98,9 @@ export const useAuth = () => {
   );
 
   const validateToken = useCallback(
-    async (signal) => {
+    async () => {
       try {
-        const res = await client.get(PROFILE_ENDPOINT, { signal });
+        const res = await client.get(PROFILE_ENDPOINT);
 
         const profile = res?.data?.user ?? res?.data ?? null;
 
@@ -110,26 +110,24 @@ export const useAuth = () => {
           dispatch(clearAuth());
         }
       } catch (err) {
-        if (err?.name === "CanceledError" || err?.name === "AbortError" || err?.code === "ERR_CANCELED") {
-          console.warn("[useAuth] Token validation request was cancelled.");
-          return;
-        }
         const status = err?.response?.status;
-
         if (status === 401 || status === 403) {
           console.warn("[useAuth] Token invalid or expired. Clearing auth.");
           dispatch(clearAuth());
-        } else {
-          console.error("[useAuth] Token validation failed but keeping current user:", err);
+        } else if (err.code !== "ERR_CANCELED") {
+          console.error(
+            "[useAuth] Token validation failed but keeping current user:",
+            err
+          );
         }
       }
-    }, [dispatch]);
+    },
+    [dispatch]
+  );
 
   const refreshSession = useCallback(() => {
-    if (currentUser) {
-      validateToken();
-    }
-  }, [currentUser, validateToken]);
+    validateToken();
+  }, [validateToken]);
 
   const logout = useCallback(async () => {
     dispatch(clearAuth());

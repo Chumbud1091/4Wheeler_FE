@@ -298,10 +298,7 @@ export const testimonialStyles = {
     "clip-path: polygon(0% 0%, 100% 0%, 100% 90%, 90% 100%, 0% 100%, 0% 10%);"
   ],
   icons: [FaCar, FaRoad, FaKey, FaMapMarkerAlt],
-  statColors: {
-    value: ["text-cyan-400", "text-amber-400", "text-violet-400", "text-emerald-400"],
-    label: ["text-cyan-200", "text-amber-200", "text-violet-200", "text-emerald-200"]
-  }
+  statColors: "text-white",
 };
 
 // src/assets/dummyStyles.js

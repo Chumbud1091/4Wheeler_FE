@@ -86,7 +86,7 @@ const CarCard = ({
           {[
             { icon: Users, value: car.seats || "4", label: "Seats" },
             { icon: Fuel, value: car.fuelType || "Gasoline" },
-            { icon: Gauge, value: car.mileage ? `${car.mileage}` : "—" },
+            { icon: Gauge, value: car.engine ? `${car.engine}` : "—" },
             { icon: CheckCircle, value: car.transmission || "Auto" },
           ].map((spec, i) => (
             <div key={i} className={styles.specItem}>
