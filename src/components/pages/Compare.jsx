@@ -125,7 +125,7 @@ const Compare = () => {
         import.meta.env.VITE_GEMINI_API_KEY
 
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${geminiKey}`,
+        `https://generative.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiKey}`,
         {
           method: "POST",
           headers: {
@@ -202,13 +202,10 @@ Car B: ${JSON.stringify(selectedCars.right)}`,
                   <span className="text-xs">No Image Available</span>
                 </div>
               )}
-            
-            <div className={`absolute inset-0 ${imageSrc ? "bg-black/70 group-hover:bg-black/60" : "bg-gradient-to-b from-gray-800 to-black"} transition-colors`} />
 
             <div className="relative z-10 h-full w-full flex flex-col p-6 text-left">
 
               <div className="border-b border-white/20 pb-4 mb-4">
-                <div className="text-xs uppercase tracking-widest text-orange-400 mb-1">Selected Vehicle</div>
                 <h3 className="text-2xl font-bold text-white leading-tight">
                   {car.make} {car.model}
                 </h3>
