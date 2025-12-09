@@ -45,8 +45,7 @@ const Cars = () => {
           page,
           limit: LIMIT,
           search: search || undefined,     
-          category: category || undefined, 
-          status: "available",            
+          category: category || undefined,           
         },
         signal: ctrl.signal,
       });

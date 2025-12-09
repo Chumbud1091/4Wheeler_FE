@@ -35,7 +35,6 @@ const HomeCars = () => {
         params: {
           page: 1,      
           limit,          
-          status: "available", 
         },
         signal: ctrl.signal,
       });
