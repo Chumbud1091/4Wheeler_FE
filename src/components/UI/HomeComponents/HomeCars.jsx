@@ -5,7 +5,6 @@ import client from "../../../services/client";
 import { homeStyles as styles } from "../../../assets/dummyStyles"; 
 import CarCard from "../CarComponents/CarCard";
 import CarCardSkeleton from "../CarComponents/CarCardSkeleton";
-import carsData from "../../../assets/carsData";
 import { toastError } from "../../utils/toastUtils";
 
 const HomeCars = () => {
@@ -37,21 +36,28 @@ const HomeCars = () => {
         params: { limit },
         signal: ctrl.signal,
       });
-      if (res?.data?.data?.length > 0) {
-        setCars(res.data.data);
-        return;
+
+      const list = Array.isArray(res?.data?.data) ? res.data.data : [];
+
+      if (list.length === 0) {
+        setCars([]);
+        setError("No cars found.");
+      } else {
+        setCars(list);
       }
-      console.warn("API returned empty data. Using fallback carsData.");
-      setCars(carsData.slice(0,limit));
     } catch (err) {
-      console.error("Error fetching cars, using fallback data:", err);
-      setCars(carsData.slice(0,limit));
-      setError("");
-      toastError(err?.response?.data?.message || err.message || "Failed to load cars");
+      console.error("Error fetching cars:", err);
+      setCars([]);
+      const msg =
+        err?.response?.data?.message ||
+        err.message ||
+        "Failed to load cars";
+      setError(msg);
+      toastError(msg);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [limit]);
 
   useEffect(() => {
     const t = setTimeout(() => setAnimateCards(true), 300);
@@ -62,7 +68,7 @@ const HomeCars = () => {
       try {
         abortRef.current?.abort();
       } catch {
-        //ignore
+        // ignore
       }
     };
   }, [fetchCars]);
@@ -97,12 +103,15 @@ const HomeCars = () => {
           ))}
 
         {!loading && error && (
-          <div className="col-span-full text-center text-red-600">
+          <div className="col-span-full text-center text-red-500 text-sm">
             {error}
           </div>
         )}
+
         {!loading && !error && cars.length === 0 && (
-          <div className="col-span-full text-center">No cars found.</div>
+          <div className="col-span-full text-center text-gray-300 text-sm">
+            No cars found.
+          </div>
         )}
 
         {!loading &&
