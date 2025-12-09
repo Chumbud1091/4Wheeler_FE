@@ -182,7 +182,7 @@ Car B: ${JSON.stringify(selectedCars.right)}`,
 
   const renderSelectionCard = (slotKey) => {
     const car = selectedCars[slotKey];
-    const bgImage = car?.images?.length > 0 ? car.images[0] : null;
+    const imageSrc = car?.images?.length > 0 ? car.images[0] : null;
     return (
       <button
         onClick={() => setActiveSlot(slotKey)}
@@ -191,14 +191,19 @@ Car B: ${JSON.stringify(selectedCars.right)}`,
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_top,_#f97316_0%,_transparent_35%)]" />
         <div className="h-full flex flex-col items-center justify-center gap-4 px-4 text-center">
           {car ? (<>
-            {bgImage && (
-              <div 
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                style={{ backgroundImage: `url(${bgImage})` }}
-              />
-            )}
+            {imageSrc ? (
+                <img
+                  src={imageSrc}
+                  alt={`${car.make} ${car.model}`}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-gray-800 text-gray-600">
+                  <span className="text-xs">No Image Available</span>
+                </div>
+              )}
             
-            <div className={`absolute inset-0 ${bgImage ? "bg-black/70 group-hover:bg-black/60" : "bg-gradient-to-b from-gray-800 to-black"} transition-colors`} />
+            <div className={`absolute inset-0 ${imageSrc ? "bg-black/70 group-hover:bg-black/60" : "bg-gradient-to-b from-gray-800 to-black"} transition-colors`} />
 
             <div className="relative z-10 h-full w-full flex flex-col p-6 text-left">
 
