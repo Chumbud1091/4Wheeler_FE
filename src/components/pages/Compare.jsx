@@ -94,12 +94,43 @@ const Compare = () => {
     setCompareError("");
 
     try {
-      const res = await client.post("/ai/compare-cars", {
-        carA: selectedCars.left,
-        carB: selectedCars.right,
-      });
-      const payload =
-        res.data?.comparison || res.data?.result || res.data?.message || "";
+      const geminiKey =
+        import.meta.env.VITE_GEMINI_API_KEY ||
+        "AIzaSyCqPlr0HQ5OTrhji4CK-swzq7Nakpq_aVM";
+
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${geminiKey}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            contents: [
+              {
+                role: "user",
+                parts: [
+                  {
+                    text: `Compare these two cars concisely for a shopper. Highlight performance, fuel/energy efficiency, pricing, practicality, safety, and tech. Keep it under 200 words.
+Car A: ${JSON.stringify(selectedCars.left)}
+Car B: ${JSON.stringify(selectedCars.right)}`,
+                  },
+                ],
+              },
+            ],
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Gemini API request failed");
+      }
+
+      const data = await response.json();
+      const textParts =
+        data?.candidates?.[0]?.content?.parts?.map((part) => part.text) || [];
+      const payload = textParts.filter(Boolean).join("\n");
+
       if (payload) {
         setComparison(payload);
       } else {
@@ -110,7 +141,7 @@ const Compare = () => {
     } catch (err) {
       console.error("Failed to compare cars", err);
       setCompareError(
-        err?.response?.data?.message || err.message || "Unable to compare the selected cars"
+        err?.message || "Unable to compare the selected cars"
       );
       if (!err?.response?.data?.message && !err?.message) {
         setComparison(
@@ -170,7 +201,7 @@ const Compare = () => {
               Choose two cars and let AI break down the differences
             </h1>
             <p className="text-gray-400 max-w-3xl mx-auto">
-              Select two vehicles to see how they stack up on performance, pricing, efficiency, and more. We will query ChatGPT to analyze the specs for you.
+              Select two vehicles to see how they stack up on performance, pricing, efficiency, and more. We will query Gemini to analyze the specs for you.
             </p>
           </div>
 
@@ -196,7 +227,7 @@ const Compare = () => {
                   : "bg-gray-800 text-gray-500 cursor-not-allowed"
               } ${compareLoading ? "opacity-80" : ""}`}
             >
-              {compareLoading ? "Comparing with ChatGPT..." : "Compare with ChatGPT"}
+              {compareLoading ? "Comparing with Gemini..." : "Compare with Gemini"}
             </button>
           </div>
 
