@@ -20,13 +20,11 @@ const BookTestDriveButton = ({ carId, carName }) => {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
-    email: "",
     preferredDate: "",
     message: "",
   });
 
   const defaultName = useMemo(() => currentUser?.username || "", [currentUser]);
-  const defaultEmail = useMemo(() => currentUser?.email || "", [currentUser]);
 
   const openModal = () => {
     if (!isLoggedIn) {
@@ -37,7 +35,6 @@ const BookTestDriveButton = ({ carId, carName }) => {
     setFormData((prev) => ({
       ...prev,
       name: prev.name || defaultName,
-      email: prev.email || defaultEmail,
     }));
     setIsOpen(true);
   };
@@ -69,7 +66,6 @@ const BookTestDriveButton = ({ carId, carName }) => {
       setFormData({
         name: defaultName,
         phone: "",
-        email: defaultEmail,
         preferredDate: "",
         message: "",
       });
@@ -139,21 +135,6 @@ const BookTestDriveButton = ({ carId, carName }) => {
                   value={formData.phone}
                   onChange={handleChange}
                   placeholder="Enter your phone number"
-                  className={inputClass}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className={labelClass} htmlFor="email">
-                  Email (optional)
-                </label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="you@example.com"
                   className={inputClass}
                 />
               </div>
