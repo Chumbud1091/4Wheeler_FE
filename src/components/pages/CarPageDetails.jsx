@@ -16,6 +16,7 @@ import { carDetailStyles } from "../../assets/dummyStyles";
 import carsData from "../../assets/carsData";
 import { useAuth } from "../../hooks/useAuth";
 import { toastError } from "../utils/toastUtils";
+import BookTestDriveButton from "../UI/CarComponents/BookTestDriveButton.jsx";
 
 const CarPageDetails = () => {
   const { id } = useParams();
@@ -141,6 +142,7 @@ const CarPageDetails = () => {
   const toggleFavorite = async () => {
     if (!isLoggedIn) {
       toastError("Please log in to manage favorites.");
+      navigate("/login", { state: { from: location.pathname } });
       return;
     }
     try {
@@ -153,7 +155,7 @@ const CarPageDetails = () => {
       }
     } catch (err) {
       console.error(err);
-      alert("Failed to update favorite");
+      toastError("Failed to update favorite");
     }
   };
 
@@ -341,6 +343,11 @@ const CarPageDetails = () => {
                 ))}
               </div>
             </div>
+
+            <BookTestDriveButton
+              carId={car._id || car.id}
+              carName={displayName}
+            />
           </div>
         </div>
       </div>
