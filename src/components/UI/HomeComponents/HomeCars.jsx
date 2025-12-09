@@ -5,7 +5,6 @@ import client from "../../../services/client";
 import { homeStyles as styles } from "../../../assets/dummyStyles"; 
 import CarCard from "../CarComponents/CarCard";
 import CarCardSkeleton from "../CarComponents/CarCardSkeleton";
-import { toastError } from "../../utils/toastUtils";
 
 const HomeCars = () => {
   const navigate = useNavigate();
@@ -32,18 +31,22 @@ const HomeCars = () => {
     abortRef.current = ctrl;
 
     try {
-      const res = await client.get("/api/cars", {
-        params: { limit },
+      const res = await client.get("/api/cars/listing", {
+        params: {
+          page: 1,      
+          limit,          
+          status: "available", 
+        },
         signal: ctrl.signal,
       });
 
-      const list = Array.isArray(res?.data?.data) ? res.data.data : [];
+      const list = Array.isArray(res?.data?.cars) ? res.data.cars : [];
 
       if (list.length === 0) {
         setCars([]);
         setError("No cars found.");
       } else {
-        setCars(list);
+        setCars(list.slice(0, limit));
       }
     } catch (err) {
       console.error("Error fetching cars:", err);
@@ -53,7 +56,6 @@ const HomeCars = () => {
         err.message ||
         "Failed to load cars";
       setError(msg);
-      toastError(msg);
     } finally {
       setLoading(false);
     }

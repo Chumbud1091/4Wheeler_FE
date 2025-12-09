@@ -6,7 +6,6 @@ import UserNavBar from "../UI/NavBar/UserNavBar";
 import CarCardSkeleton from "../UI/CarComponents/CarCardSkeleton";
 import CarCard from "../UI/CarComponents/CarCard";
 import Footer from "../UI/Footer/Footer";
-import { toastError } from "../utils/toastUtils";
 
 const LIMIT = 12;
 
@@ -64,7 +63,6 @@ const Cars = () => {
       const msg =
         err?.response?.data?.message || err.message || "Failed to load cars";
       setError(msg);
-      toastError(msg);
     } finally {
       setLoading(false);
     }

@@ -10,7 +10,14 @@ client.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    if (error.response?.status === 403 && !originalRequest._retry) {
+
+    const status = error.response?.status;
+    const url = originalRequest?.url || "";
+    if (
+      status === 403 &&
+      !originalRequest._retry &&
+      !url.includes("/auth/users/refresh-token")
+    ) {
       originalRequest._retry = true;
 
       try {
