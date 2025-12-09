@@ -18,12 +18,22 @@ const Compare = () => {
   const [comparison, setComparison] = useState("");
   const [compareError, setCompareError] = useState("");
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const CARS_PER_PAGE = 8;
+
   const abortRef = useRef(null);
 
   useEffect(() => {
     const t = setTimeout(() => setDebouncedTerm(searchTerm.trim()), 300);
     return () => clearTimeout(t);
   }, [searchTerm]);
+
+  useEffect(() => {
+    if (activeSlot) {
+      setCurrentPage(1);
+    }
+  }, [debouncedTerm, activeSlot]);
 
   useEffect(() => {
     if (!activeSlot) return;
@@ -43,14 +53,21 @@ const Compare = () => {
       try {
         const res = await client.get("/cars/listing", {
           params: {
-            page: 1,
-            limit: 8,
+            page: currentPage,
+            limit: CARS_PER_PAGE,
             search: debouncedTerm || undefined,
           },
           signal: controller.signal,
         });
 
         setSearchResults(res.data?.cars || []);
+        if (res.data?.totalPages) {
+          setTotalPages(res.data.totalPages);
+        } else if (res.data?.totalItems) {
+          setTotalPages(Math.ceil(res.data.total / CARS_PER_PAGE));
+        } else {
+          setTotalPages(1);
+        }
       } catch (err) {
         const canceled = err?.name === "CanceledError" || err?.code === "ERR_CANCELED";
         if (!canceled) {
@@ -72,7 +89,17 @@ const Compare = () => {
         console.debug("Compare search cleanup: abort on unmount", err);
       }
     };
-  }, [activeSlot, debouncedTerm]);
+  }, [activeSlot, debouncedTerm, currentPage]);
+
+  useEffect(() => {
+    const t = setTimeout(() => {
+      setDebouncedTerm(searchTerm.trim());
+      if (currentPage !== 1) {
+        setCurrentPage(1);
+      }
+    }, 300);
+    return () => clearTimeout(t);
+  }, [searchTerm]);
 
   const handleSelectCar = (car) => {
     if (!activeSlot) return;
@@ -122,7 +149,7 @@ Car B: ${JSON.stringify(selectedCars.right)}`,
       );
 
       if (!response.ok) {
-        console.error("Gemini error:", response.status, text);
+        console.error("Gemini error:", response.status);
         throw new Error(`Gemini API request failed: ${response.status}`);
       }
 
@@ -155,6 +182,7 @@ Car B: ${JSON.stringify(selectedCars.right)}`,
 
   const renderSelectionCard = (slotKey) => {
     const car = selectedCars[slotKey];
+    const bgImage = car?.images?.length > 0 ? car.images[0] : null;
     return (
       <button
         onClick={() => setActiveSlot(slotKey)}
@@ -162,19 +190,71 @@ Car B: ${JSON.stringify(selectedCars.right)}`,
       >
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_top,_#f97316_0%,_transparent_35%)]" />
         <div className="h-full flex flex-col items-center justify-center gap-4 px-4 text-center">
-          {car ? (
-            <div className="space-y-2">
-              <div className="text-sm uppercase tracking-wide text-orange-300">Selected</div>
-              <div className="text-2xl font-semibold">{car.make} {car.model}</div>
-              <div className="text-sm text-gray-300 flex items-center justify-center gap-2">
-                <span className="px-3 py-1 rounded-full bg-white/10 border border-white/10">{car.year || "—"}</span>
-                <span className="px-3 py-1 rounded-full bg-white/10 border border-white/10">{car.category || car.type || "—"}</span>
+          {car ? (<>
+            {bgImage && (
+              <div 
+                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+                style={{ backgroundImage: `url(${bgImage})` }}
+              />
+            )}
+            
+            <div className={`absolute inset-0 ${bgImage ? "bg-black/70 group-hover:bg-black/60" : "bg-gradient-to-b from-gray-800 to-black"} transition-colors`} />
+
+            <div className="relative z-10 h-full w-full flex flex-col p-6 text-left">
+
+              <div className="border-b border-white/20 pb-4 mb-4">
+                <div className="text-xs uppercase tracking-widest text-orange-400 mb-1">Selected Vehicle</div>
+                <h3 className="text-2xl font-bold text-white leading-tight">
+                  {car.make} {car.model}
+                </h3>
+                <div className="text-xl font-semibold text-orange-300 mt-1">
+                  ${Number(car.price).toLocaleString()}
+                </div>
               </div>
-              <div className="text-gray-400 text-sm">
-                {car.price ? `$${Number(car.price).toLocaleString()}` : "Price unavailable"}
+
+              <div className="grid grid-cols-2 gap-x-4 gap-y-3 text-sm flex-1 content-start">
+                <div className="flex flex-col">
+                  <span className="text-gray-400 text-xs">Year</span>
+                  <span className="font-medium text-gray-100">{car.year}</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-gray-400 text-xs">Category</span>
+                  <span className="font-medium text-gray-100">{car.category}</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-gray-400 text-xs">Transmission</span>
+                  <span className="font-medium text-gray-100">{car.transmission}</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-gray-400 text-xs">Fuel Type</span>
+                  <span className="font-medium text-gray-100">{car.fuelType}</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-gray-400 text-xs">Engine</span>
+                  <span className="font-medium text-gray-100">{car.engine || "N/A"}</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-gray-400 text-xs">Horsepower</span>
+                  <span className="font-medium text-gray-100">{car.horsepower ? `${car.horsepower} HP` : "N/A"}</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-gray-400 text-xs">Seats</span>
+                  <span className="font-medium text-gray-100">{car.seats}</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-gray-400 text-xs">Color</span>
+                  <span className="font-medium text-gray-100">{car.color || "N/A"}</span>
+                </div>
+              </div>
+              
+              <div className="mt-4 text-center">
+                 <span className="text-xs text-orange-400/80 hover:text-orange-300 transition-colors underline decoration-dotted">
+                    Click to change vehicle
+                 </span>
               </div>
             </div>
-          ) : (
+          </>
+        ) : (
             <div className="flex flex-col items-center gap-3">
               <div className="w-14 h-14 rounded-full border border-orange-500/70 flex items-center justify-center bg-orange-500/10 text-orange-300">
                 <FaPlus size={24} />
@@ -315,6 +395,30 @@ Car B: ${JSON.stringify(selectedCars.right)}`,
                   ))}
                 </div>
               </div>
+
+              {totalPages > 1 && (
+                <div className="flex justify-between items-center mt-4">
+                  <button
+                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                    disabled={currentPage === 1 || searchLoading}
+                    className={`px-4 py-2 rounded-lg text-sm transition ${currentPage === 1 || searchLoading ? 'text-gray-600 bg-gray-800/50 cursor-not-allowed' : 'bg-orange-500/10 text-orange-400 hover:bg-orange-500/20'
+                      }`}
+                  >
+                    Prev
+                  </button>
+                  <span className="text-sm text-gray-400">
+                    Page **{currentPage}** of **{totalPages}**
+                  </span>
+                  <button
+                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                    disabled={currentPage === totalPages || searchLoading}
+                    className={`px-4 py-2 rounded-lg text-sm transition ${currentPage === totalPages || searchLoading ? 'text-gray-600 bg-gray-800/50 cursor-not-allowed' : 'bg-orange-500/10 text-orange-400 hover:bg-orange-500/20'
+                      }`}
+                  >
+                    Next
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
