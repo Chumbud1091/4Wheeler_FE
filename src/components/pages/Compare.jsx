@@ -95,11 +95,10 @@ const Compare = () => {
 
     try {
       const geminiKey =
-        import.meta.env.VITE_GEMINI_API_KEY ||
-        "AIzaSyCqPlr0HQ5OTrhji4CK-swzq7Nakpq_aVM";
+        import.meta.env.VITE_GEMINI_API_KEY
 
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${geminiKey}`,
+        `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash-latest:generateContent?key=${geminiKey}`,
         {
           method: "POST",
           headers: {
@@ -123,7 +122,8 @@ Car B: ${JSON.stringify(selectedCars.right)}`,
       );
 
       if (!response.ok) {
-        throw new Error("Gemini API request failed");
+        console.error("Gemini error:", response.status, text);
+        throw new Error(`Gemini API request failed: ${response.status}`);
       }
 
       const data = await response.json();
@@ -221,11 +221,10 @@ Car B: ${JSON.stringify(selectedCars.right)}`,
             <button
               onClick={handleCompare}
               disabled={!canCompare || compareLoading}
-              className={`px-6 py-3 rounded-full font-semibold flex items-center gap-2 transition focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-black ${
-                canCompare
-                  ? "bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-lg shadow-orange-500/30 hover:scale-[1.02]"
-                  : "bg-gray-800 text-gray-500 cursor-not-allowed"
-              } ${compareLoading ? "opacity-80" : ""}`}
+              className={`px-6 py-3 rounded-full font-semibold flex items-center gap-2 transition focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-black ${canCompare
+                ? "bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-lg shadow-orange-500/30 hover:scale-[1.02]"
+                : "bg-gray-800 text-gray-500 cursor-not-allowed"
+                } ${compareLoading ? "opacity-80" : ""}`}
             >
               {compareLoading ? "Comparing with Gemini..." : "Compare with Gemini"}
             </button>
