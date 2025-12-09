@@ -8,6 +8,8 @@ import NavLinks from "./NavLinks";
 import UserActions from "./UserActions";
 import MobileMenu from "./MobileMenu";
 import { useAuth } from "../../../hooks/useAuth"; 
+import { toast } from "react-toastify";
+import { toastSuccess } from "../../utils/toastUtils";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -63,6 +65,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     await logout();
+    toastSuccess("Logged out successfully!");
     navigate("/", { replace: true });
   };
 

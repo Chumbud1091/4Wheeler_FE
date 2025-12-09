@@ -18,7 +18,6 @@ export const GOOGLE_ENDPOINT = `${API}/auth/google`;
 
 export const useAuth = () => {
   const dispatch = useDispatch();
-  const abortRef = useRef(null);
 
   const currentUser = useSelector((state) => state.user.currentUser);
   const loading = useSelector((state) => state.user.loading);
@@ -54,7 +53,7 @@ export const useAuth = () => {
       dispatch(logInStart());
       try {
         const res = await client.post(GOOGLE_ENDPOINT, { idToken });
-
+        
         const appUser = res.data || fallbackProfile || null;
         dispatch(logInSuccess(appUser));
 
@@ -124,23 +123,13 @@ export const useAuth = () => {
           console.error("[useAuth] Token validation failed but keeping current user:", err);
         }
       }
-    },
-    [dispatch]
-  );
+    }, [dispatch]);
 
-  const triggerValidation = useCallback(() => {
-    abortRef.current?.abort();
-    const controller = new AbortController();
-    abortRef.current = controller;
+  const refreshSession = useCallback(() => {
     if (currentUser) {
-      validateToken(controller.signal);
+      validateToken();
     }
-  }, [validateToken, currentUser]);
-
-  useEffect(() => {
-    triggerValidation();
-    return () => abortRef.current?.abort();
-  }, [triggerValidation]);
+  }, [currentUser, validateToken]);
 
   const logout = useCallback(async () => {
     dispatch(clearAuth());
@@ -166,5 +155,6 @@ export const useAuth = () => {
     loginWithGoogle,
     signup,
     logout,
+    refreshSession,
   };
 };

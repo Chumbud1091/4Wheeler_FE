@@ -16,14 +16,7 @@ import { useAuth } from "./hooks/useAuth";
 
 const ProtectedRoute = ({ children }) => {
   const location = useLocation();
-  const { isLoggedIn, loading } = useAuth();
-  if (loading) {
-      return (
-    <div className="w-full h-screen flex items-center justify-center text-white">
-      Loading...
-    </div>
-  );
-  }
+  const { isLoggedIn } = useAuth();
   if (!isLoggedIn) {
     return (
       <Navigate
@@ -48,6 +41,11 @@ const RedirectIfAuthenticated = ({ children }) => {
 const App = () => {
   const [showButton, setShowButton] = useState(false);
   const location = useLocation();
+  const { refreshSession } = useAuth();
+
+  useEffect(() => {
+    refreshSession();
+  }, [refreshSession]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });

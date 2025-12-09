@@ -3,7 +3,6 @@ import { AiOutlineGooglePlus } from "react-icons/ai";
 import { app } from "../../../firebase";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
-import { loginStyles, signupStyles } from "../../assets/dummyStyles";
 
 const GoogleButton = ({ variant }) => {
   const navigate = useNavigate();
@@ -18,6 +17,7 @@ const GoogleButton = ({ variant }) => {
       
 
       const result = await signInWithPopup(auth, provider);
+      console.log("Google sign-in result:", result.user);
       const idToken = await result.user.getIdToken();
 
       const fallbackProfile = {
