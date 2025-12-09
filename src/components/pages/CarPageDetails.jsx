@@ -15,8 +15,7 @@ import client from "../../services/client";
 import { carDetailStyles } from "../../assets/dummyStyles";
 import carsData from "../../assets/carsData";
 import { useAuth } from "../../hooks/useAuth";
-import { toast } from "react-toastify";
-import { toastError, toastSuccess } from "../utils/toastUtils";
+import { toastError } from "../utils/toastUtils";
 
 const CarPageDetails = () => {
   const { id } = useParams();
@@ -27,9 +26,8 @@ const CarPageDetails = () => {
   const [loadingCar, setLoadingCar] = useState(false);
   const [carError, setCarError] = useState("");
   const [currentImage, setCurrentImage] = useState(0);
-  const { currentUser, isLoggedIn } = useAuth();
+  const { isLoggedIn } = useAuth();
   const [isFavorite, setIsFavorite] = useState(false);
-
 
   const fetchControllerRef = useRef(null);
 
@@ -40,12 +38,13 @@ const CarPageDetails = () => {
       try {
         const res = await client.get("/auth/users/profile");
         const favs = res.data?.user?.favorites || [];
-        setIsFavorite(favs.some(f => f._id === car._id));
-      } catch { }
+        setIsFavorite(favs.some((f) => f._id === car._id));
+      } catch {
+        // ignore
+      }
     };
     checkFavorite();
   }, [car, isLoggedIn]);
-
 
   useEffect(() => {
     if (car) {
@@ -126,7 +125,6 @@ const CarPageDetails = () => {
   const horsepower = car.horsepower;
   const color = car.color || "";
   const year = car.year;
-  const listedDate = car.createdAt ? new Date(car.createdAt) : null;
 
   const carImages = [
     ...(Array.isArray(car.images) ? car.images : []),
@@ -138,9 +136,7 @@ const CarPageDetails = () => {
   ].filter(Boolean);
 
   const mainImage =
-    carImages[currentImage] ||
-    carImages[0] ||
-    car.image
+    carImages[currentImage] || carImages[0] || car.image;
 
   const toggleFavorite = async () => {
     if (!isLoggedIn) {
@@ -161,6 +157,20 @@ const CarPageDetails = () => {
     }
   };
 
+  const details = [
+    { label: "Make", value: car.make || "—" },
+    { label: "Model", value: car.model || "—" },
+    { label: "Year", value: year || "—" },
+    { label: "Price", value: price ? `$${price.toLocaleString()}` : "—" },
+    { label: "Category", value: category },
+    { label: "Color", value: color || "—" },
+    { label: "Seats", value: seats },
+    { label: "Transmission", value: transmissionLabel },
+    { label: "Fuel Type", value: fuel },
+    { label: "Engine", value: engine || "—" },
+    { label: "Horsepower", value: horsepower || "—" },
+  ];
+
   return (
     <div className={carDetailStyles.pageContainer}>
       <div className={carDetailStyles.contentContainer}>
@@ -173,28 +183,73 @@ const CarPageDetails = () => {
 
         <div className={carDetailStyles.mainLayout}>
           <div className={carDetailStyles.leftColumn}>
-            <div className={carDetailStyles.imageCarousel}>
-              <img
-                src={mainImage}
-                alt={displayName}
-                className={carDetailStyles.carImage}
-              />
+            <div className="relative w-full rounded-2xl overflow-hidden">
+              {carImages.length <= 1 ? (
+                <img
+                  src={mainImage}
+                  alt={displayName}
+                  className="w-full h-[320px] md:h-[380px] object-cover rounded-2xl"
+                />
+              ) : (
+                <>
+                  <div
+                    className="flex transition-transform duration-500"
+                    style={{
+                      width: `${carImages.length * 100}%`,
+                      transform: `translateX(-${currentImage * (100 / carImages.length)}%)`,
+                    }}
+                  >
+                    {carImages.map((img, i) => (
+                      <img
+                        key={i}
+                        src={img}
+                        alt={`image-${i}`}
+                        className="w-full h-[320px] md:h-[380px] object-cover flex-shrink-0"
+                      />
+                    ))}
+                  </div>
+                  
+                  <button
+                    onClick={() =>
+                      setCurrentImage(
+                        currentImage === 0 ? carImages.length - 1 : currentImage - 1
+                      )
+                    }
+                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full p-2 transition"
+                  >
+                    ❮
+                  </button>
 
-              {(carImages.length > 0 || car.image) && (
-                <div className={carDetailStyles.carouselIndicators}>
-                  {(carImages.length > 0 ? carImages : [car.image]).map(
-                    (_, idx) => (
+                  <button
+                    onClick={() =>
+                      setCurrentImage(
+                        currentImage === carImages.length - 1 ? 0 : currentImage + 1
+                      )
+                    }
+                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full p-2 transition"
+                  >
+                    ❯
+                  </button>
+
+                  <div className="flex gap-2 justify-center mt-3">
+                    {carImages.map((img, idx) => (
                       <button
                         key={idx}
                         onClick={() => setCurrentImage(idx)}
-                        aria-label={`Show image ${idx + 1}`}
-                        className={carDetailStyles.carouselIndicator(
-                          idx === currentImage
-                        )}
-                      />
-                    )
-                  )}
-                </div>
+                        className={`border rounded-md overflow-hidden ${idx === currentImage
+                            ? "border-white scale-110"
+                            : "border-gray-600 opacity-70"
+                          } transition`}
+                      >
+                        <img
+                          src={img}
+                          alt={`Thumb ${idx}`}
+                          className="w-14 h-12 object-cover"
+                        />
+                      </button>
+                    ))}
+                  </div>
+                </>
               )}
             </div>
 
@@ -207,30 +262,10 @@ const CarPageDetails = () => {
                 {isFavorite ? <FaHeart /> : <FaRegHeart />}
               </button>
             </h1>
+
             <p className={carDetailStyles.carPrice}>
               ${price.toLocaleString()}
             </p>
-
-            <div className="mt-2 text-sm text-gray-300 flex flex-wrap gap-3">
-              {year && (
-                <span className="inline-flex items-center gap-1">
-                  <FaCar className="text-orange-400" />
-                  {year}
-                </span>
-              )}
-              {color && (
-                <span className="inline-flex items-center gap-1">
-                  <span
-                    className="inline-block w-3 h-3 rounded-full border border-gray-500"
-                    style={{ backgroundColor: color }}
-                  />
-                  {color}
-                </span>
-              )}
-              <span>{category}</span>
-              {engine && <span>{engine}</span>}
-              {horsepower && <span>{horsepower} HP</span>}
-            </div>
 
             <div className={carDetailStyles.specsGrid}>
               {[
@@ -279,24 +314,33 @@ const CarPageDetails = () => {
 
             <div className={carDetailStyles.aboutSection}>
               <h2 className={carDetailStyles.aboutTitle}>About this car</h2>
-
-              <p className={carDetailStyles.aboutText}>
-                {year && <>Model Year: {year}. </>}
-                Engine: {engine || "N/A"} {horsepower && `• ${horsepower} HP`}.
-              </p>
-
               <p className={carDetailStyles.aboutText}>
                 {car.description ||
                   "This vehicle offers a refined balance of performance and comfort."}
               </p>
-
-              {listedDate && (
-                <p className={carDetailStyles.aboutText}>
-                  Listed on: {listedDate.toLocaleDateString()}
-                </p>
-              )}
             </div>
+          </div>
 
+          <div className={carDetailStyles.rightColumn}>
+            <div className="bg-[#050816]/80 border border-white/10 rounded-2xl p-6 shadow-xl backdrop-blur-md min-h-[260px]">
+              <h2 className="text-lg font-semibold text-white mb-4">
+                Car Details
+              </h2>
+
+              <div className="space-y-3 text-sm">
+                {details.map((item) => (
+                  <div
+                    key={item.label}
+                    className="flex justify-between items-center border-b border-white/5 pb-2 last:border-b-0 last:pb-0"
+                  >
+                    <span className="text-gray-400">{item.label}</span>
+                    <span className="text-gray-100 font-medium ml-4">
+                      {item.value}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>

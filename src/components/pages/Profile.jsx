@@ -26,7 +26,7 @@ const Profile = () => {
       <UserNavBar />
 
       <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
-        <div className="max-w-6xl mx-auto px-4 py-16 space-y-10">
+        <div className="max-w-6xl mx-auto px-4 pt-28 pb-16 space-y-10">
           {/* Header / user info */}
           <section className="space-y-6">
             <div className="inline-flex items-center gap-3 px-4 py-1 rounded-full bg-orange-500/10 border border-orange-500/40">
