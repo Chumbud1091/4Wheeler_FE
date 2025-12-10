@@ -24,6 +24,8 @@ const Cars = () => {
 
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
+
+  const [categoryInput, setCategoryInput] = useState("");
   const [category, setCategory] = useState("");
 
   const abortRef = useRef(null);
@@ -86,6 +88,7 @@ const Cars = () => {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     setPage(1);
+    setCategory(categoryInput.trim());
     setSearch(searchInput.trim());
   };
 
@@ -155,8 +158,7 @@ const Cars = () => {
                 <select
                   value={category}
                   onChange={(e) => {
-                    setCategory(e.target.value);
-                    setPage(1);
+                    setCategoryInput(e.target.value);
                   }}
                   className="w-full rounded-lg bg-black/40 border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
                 >

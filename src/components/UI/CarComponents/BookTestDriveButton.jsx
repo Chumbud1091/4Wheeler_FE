@@ -54,12 +54,18 @@ const BookTestDriveButton = ({ carId, carName }) => {
       toastError("Missing car information for booking.");
       return;
     }
+    if (!formData.name.trim() || !formData.phone.trim()) {
+      toastError("Name and phone number are required.");
+      return;
+    }
+
     setSubmitting(true);
     try {
-      await client.post("/test-drives", {
-        ...formData,
-        car: carId,
-        preferredDate: formData.preferredDate || null,
+      await client.post("/cars/test-drive/", {
+        name: formData.name.trim(),
+        phone: formData.phone.trim(),
+        preferredDate: formData.preferredDate || undefined,
+        message: formData.message || "",
       });
       toastSuccess("Test drive request submitted!");
       setIsOpen(false);

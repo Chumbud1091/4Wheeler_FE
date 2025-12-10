@@ -25,7 +25,12 @@ const Compare = () => {
   const abortRef = useRef(null);
 
   useEffect(() => {
-    const t = setTimeout(() => setDebouncedTerm(searchTerm.trim()), 300);
+    const t = setTimeout(() => {
+      const trimmed = searchTerm.trim();
+      setDebouncedTerm(trimmed);
+      setCurrentPage(1);
+    }, 300);
+
     return () => clearTimeout(t);
   }, [searchTerm]);
 
@@ -60,11 +65,15 @@ const Compare = () => {
           signal: controller.signal,
         });
 
-        setSearchResults(res.data?.cars || []);
-        if (res.data?.totalPages) {
-          setTotalPages(res.data.totalPages);
-        } else if (res.data?.totalItems) {
-          setTotalPages(Math.ceil(res.data.total / CARS_PER_PAGE));
+        const data = res.data || {};
+        const cars = Array.isArray(data.cars) ? data.cars : [];
+
+        setSearchResults(cars);
+
+        if (typeof data.pages === "number" && data.pages > 0) {
+          setTotalPages(data.pages);
+        } else if (typeof data.total === "number" && data.total > 0) {
+          setTotalPages(Math.ceil(data.total / CARS_PER_PAGE));
         } else {
           setTotalPages(1);
         }
@@ -90,16 +99,6 @@ const Compare = () => {
       }
     };
   }, [activeSlot, debouncedTerm, currentPage]);
-
-  useEffect(() => {
-    const t = setTimeout(() => {
-      setDebouncedTerm(searchTerm.trim());
-      if (currentPage !== 1) {
-        setCurrentPage(1);
-      }
-    }, 300);
-    return () => clearTimeout(t);
-  }, [searchTerm]);
 
   const handleSelectCar = (car) => {
     if (!activeSlot) return;
@@ -192,16 +191,16 @@ Car B: ${JSON.stringify(selectedCars.right)}`,
         <div className="h-full flex flex-col items-center justify-center gap-4 px-4 text-center">
           {car ? (<>
             {imageSrc ? (
-                <img
-                  src={imageSrc}
-                  alt={`${car.make} ${car.model}`}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center bg-gray-800 text-gray-600">
-                  <span className="text-xs">No Image Available</span>
-                </div>
-              )}
+              <img
+                src={imageSrc}
+                alt={`${car.make} ${car.model}`}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-gray-800 text-gray-600">
+                <span className="text-xs">No Image Available</span>
+              </div>
+            )}
 
             <div className="relative z-10 h-full w-full flex flex-col p-6 text-left">
 
@@ -248,15 +247,15 @@ Car B: ${JSON.stringify(selectedCars.right)}`,
                   <span className="font-medium text-gray-100">{car.color || "N/A"}</span>
                 </div>
               </div>
-              
+
               <div className="mt-4 text-center">
-                 <span className="text-xs text-orange-400/80 hover:text-orange-300 transition-colors underline decoration-dotted">
-                    Click to change vehicle
-                 </span>
+                <span className="text-xs text-orange-400/80 hover:text-orange-300 transition-colors underline decoration-dotted">
+                  Click to change vehicle
+                </span>
               </div>
             </div>
           </>
-        ) : (
+          ) : (
             <div className="flex flex-col items-center gap-3">
               <div className="w-14 h-14 rounded-full border border-orange-500/70 flex items-center justify-center bg-orange-500/10 text-orange-300">
                 <FaPlus size={24} />
