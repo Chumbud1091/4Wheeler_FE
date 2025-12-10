@@ -61,7 +61,7 @@ const BookTestDriveButton = ({ carId, carName }) => {
 
     setSubmitting(true);
     try {
-      await client.post("/cars/test-drive/", {
+      await client.post(`/cars/test-drive/${carId}`, {
         name: formData.name.trim(),
         phone: formData.phone.trim(),
         preferredDate: formData.preferredDate || undefined,

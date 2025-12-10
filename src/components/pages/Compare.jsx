@@ -108,6 +108,22 @@ const Compare = () => {
     setSearchResults([]);
   };
 
+  const filteredResults = useMemo(() => {
+    if (!activeSlot) return searchResults;
+
+    const otherSlot = activeSlot === "left" ? "right" : "left";
+    const otherCar = selectedCars[otherSlot];
+
+    if (!otherCar) return searchResults;
+
+    const otherId = String(otherCar._id || otherCar.id);
+
+    return searchResults.filter((car) => {
+      const carId = String(car._id || car.id);
+      return carId !== otherId;
+    });
+  }, [activeSlot, searchResults, selectedCars]);
+
   const canCompare = useMemo(
     () => Boolean(selectedCars.left && selectedCars.right),
     [selectedCars.left, selectedCars.right]
@@ -360,7 +376,7 @@ Car B: ${JSON.stringify(selectedCars.right)}`,
                 )}
 
                 <div className="grid sm:grid-cols-2 gap-3">
-                  {searchResults.map((car) => (
+                  {filteredResults.map((car) => (
                     <button
                       key={car._id || car.id}
                       onClick={() => handleSelectCar(car)}
