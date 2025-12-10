@@ -130,70 +130,41 @@ const Compare = () => {
   );
 
   const handleCompare = async () => {
-    if (!canCompare) return;
+    if (!canCompare || compareLoading) return;
     setCompareLoading(true);
     setComparison("");
     setCompareError("");
 
     try {
-      const geminiKey =
-        import.meta.env.VITE_GEMINI_API_KEY
+      const res = await client.post("/gemini/compare-cars", {
+        carA: selectedCars.left,
+        carB: selectedCars.right,
+      });
 
-      const response = await fetch(
-        `https://generative.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiKey}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            contents: [
-              {
-                role: "user",
-                parts: [
-                  {
-                    text: `Compare these two cars concisely for a shopper. Highlight performance, fuel/energy efficiency, pricing, practicality, safety, and tech. Keep it under 200 words.
-Car A: ${JSON.stringify(selectedCars.left)}
-Car B: ${JSON.stringify(selectedCars.right)}`,
-                  },
-                ],
-              },
-            ],
-          }),
-        }
+      const data = res.data;
+
+      const text =
+        data?.candidates?.[0]?.content?.parts
+          ?.map((p) => p.text)
+          .filter(Boolean)
+          .join("\n") || "";
+
+      setComparison(
+        text ||
+        "Comparison generated. Review the vehicle specs side-by-side to understand the key differences."
       );
-
-      if (!response.ok) {
-        console.error("Gemini error:", response.status);
-        throw new Error(`Gemini API request failed: ${response.status}`);
-      }
-
-      const data = await response.json();
-      const textParts =
-        data?.candidates?.[0]?.content?.parts?.map((part) => part.text) || [];
-      const payload = textParts.filter(Boolean).join("\n");
-
-      if (payload) {
-        setComparison(payload);
-      } else {
-        setComparison(
-          "Comparison generated. Review the vehicle specs side-by-side to understand the key differences."
-        );
-      }
     } catch (err) {
       console.error("Failed to compare cars", err);
       setCompareError(
-        err?.message || "Unable to compare the selected cars"
+        err?.response?.data?.message ||
+        err?.message ||
+        "Unable to compare the selected cars. Please try again later."
       );
-      if (!err?.response?.data?.message && !err?.message) {
-        setComparison(
-          "Comparison request sent. Please check back in a moment for the detailed analysis."
-        );
-      }
     } finally {
       setCompareLoading(false);
     }
   };
+
 
   const renderSelectionCard = (slotKey) => {
     const car = selectedCars[slotKey];

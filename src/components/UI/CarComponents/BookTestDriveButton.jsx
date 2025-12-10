@@ -25,6 +25,7 @@ const BookTestDriveButton = ({ carId, carName }) => {
   });
 
   const defaultName = useMemo(() => currentUser?.username || "", [currentUser]);
+  const today = new Date().toISOString().split("T")[0];
 
   const openModal = () => {
     if (!isLoggedIn) {
@@ -153,6 +154,7 @@ const BookTestDriveButton = ({ carId, carName }) => {
                   id="preferredDate"
                   name="preferredDate"
                   type="date"
+                  min={today}
                   value={formData.preferredDate}
                   onChange={handleChange}
                   className={inputClass}
