@@ -109,7 +109,6 @@ const Cars = () => {
       <div className={styles.pageContainer}>
         <div className={styles.contentContainer}>
           <div className={styles.headerContainer}>
-            <div className={styles.headerDecoration}></div>
             <h1 className={styles.title}>Premium Car Collection</h1>
             <p className={styles.subtitle}>
               Discover our exclusive collection of premium vehicles.
