@@ -8,10 +8,10 @@ import {
   FaCar,
 } from "react-icons/fa";
 
-export const WHATSAPP_NUMBER = '+918299431275';
+export const WHATSAPP_NUMBER = '+840704673508';
 
 export const CONTACT_INFOS = [
-  { icon: FaWhatsapp, label: 'WhatsApp', value: '+91 8299431275', color: 'bg-green-900/30', accent: 'text-green-400' },
+  { icon: FaWhatsapp, label: 'WhatsApp', value: '+84 0704674508', color: 'bg-green-900/30', accent: 'text-green-400' },
   { icon: FaEnvelope, label: 'Email', value: 'contact@hexagonsservices.com', color: 'bg-orange-900/30', accent: 'text-orange-400 text-lg' },
   { icon: FaClock, label: 'Hours', value: 'Mon-Sat: 8AM-8PM', color: 'bg-orange-900/30', accent: 'text-orange-400 text-lg', extra: 'Sunday: 8AM-2PM' },
 ];
