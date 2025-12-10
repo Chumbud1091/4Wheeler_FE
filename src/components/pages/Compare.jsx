@@ -263,10 +263,10 @@ const Compare = () => {
           <div className="text-center mb-10">
             <p className="text-orange-400 uppercase tracking-[0.3em] text-xs">Compare</p>
             <h1 className="text-4xl font-bold mt-2 mb-3 text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-200">
-              Choose two cars and let AI break down the differences
+              Choose two cars and let US break down the differences
             </h1>
             <p className="text-gray-400 max-w-3xl mx-auto">
-              Select two vehicles to see how they stack up on performance, pricing, efficiency, and more. We will query Gemini to analyze the specs for you.
+              Select two vehicles to see how they stack up on performance, pricing, efficiency, and more. We will analyze the specs of each cars for you.
             </p>
           </div>
 
@@ -291,7 +291,7 @@ const Compare = () => {
                 : "bg-gray-800 text-gray-500 cursor-not-allowed"
                 } ${compareLoading ? "opacity-80" : ""}`}
             >
-              {compareLoading ? "Comparing with Gemini..." : "Compare with Gemini"}
+              {compareLoading ? "Comparing..." : "Compare"}
             </button>
           </div>
 
