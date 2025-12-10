@@ -34,8 +34,8 @@ const CarCard = ({
     animateCards === false
       ? "translateY(40px)"
       : hoveredCard === carId
-      ? "rotate(0.5deg)"
-      : "none";
+        ? "rotate(0.5deg)"
+        : "none";
 
   return (
     <div
@@ -99,16 +99,18 @@ const CarCard = ({
           ))}
         </div>
 
-        <button
-          onClick={() => onBook(car)}
-          className={`${styles.bookButton} hover:shadow-md`}
-          title="View details"
-        >
-          <span className={styles.buttonText}>
-            View Details
-            <ArrowRight className="ml-2 w-4 h-4" />
-          </span>
-        </button>
+        <div className="mt-auto pt-4">
+          <button
+            onClick={() => onBook(car)}
+            className={`${styles.bookButton} hover:shadow-md`}
+            title="View details"
+          >
+            <span className={styles.buttonText}>
+              View Details
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </span>
+          </button>
+        </div>
       </div>
 
       <div className={styles.accentBlur}></div>
