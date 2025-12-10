@@ -143,11 +143,7 @@ const Compare = () => {
 
       const data = res.data;
 
-      const text =
-        data?.candidates?.[0]?.content?.parts
-          ?.map((p) => p.text)
-          .filter(Boolean)
-          .join("\n") || "";
+      const text = data?.comparison || "";
 
       setComparison(
         text ||
@@ -164,6 +160,7 @@ const Compare = () => {
       setCompareLoading(false);
     }
   };
+
 
 
   const renderSelectionCard = (slotKey) => {

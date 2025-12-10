@@ -206,15 +206,16 @@ const CarPageDetails = () => {
                         key={i}
                         src={img}
                         alt={`image-${i}`}
-                        className="w-full h-[320px] md:h-[380px] object-cover flex-shrink-0"
+                        className="h-[320px] md:h-[380px] object-cover flex-shrink-0"
+                        style={{ width: `${100 / carImages.length}%` }}
                       />
                     ))}
                   </div>
 
                   <button
                     onClick={() =>
-                      setCurrentImage(
-                        currentImage === 0 ? carImages.length - 1 : currentImage - 1
+                      setCurrentImage((prev) =>
+                        prev === 0 ? carImages.length - 1 : prev - 1
                       )
                     }
                     className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full p-2 transition"
@@ -224,8 +225,8 @@ const CarPageDetails = () => {
 
                   <button
                     onClick={() =>
-                      setCurrentImage(
-                        currentImage === carImages.length - 1 ? 0 : currentImage + 1
+                      setCurrentImage((prev) =>
+                        prev === carImages.length - 1 ? 0 : prev + 1
                       )
                     }
                     className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full p-2 transition"
