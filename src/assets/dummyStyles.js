@@ -409,7 +409,7 @@ export const carPageStyles = {
   specItem: "flex items-center space-x-2",
   specIconContainer: (isHovered) => `bg-slate-700 p-1.5 rounded-lg ${isHovered ? '' : ''}`,
   specIcon: (isHovered) => `w-4 h-4 ${isHovered ? 'text-orange-400' : 'text-white-500'}`,
-  bookButton: "metal-btn inline-flex items-center gap-3 px-5 py-3 rounded-lg font-medium transform-gpu hover:scale-[1.03] active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-sky-300 cursor-pointer",
+  bookButton: "metal-btn inline-flex items-center gap-1 px-3 py-3 rounded-lg font-medium transform-gpu hover:scale-[1.03] active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-sky-300 cursor-pointer",
   buttonText: "group-hover:tracking-wider transition-all",
   buttonIcon: "ml-3 h-4 w-4 transition-transform group-hover:translate-x-1",
 };

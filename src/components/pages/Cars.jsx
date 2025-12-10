@@ -36,7 +36,7 @@ const Cars = () => {
 
     try {
       abortRef.current?.abort();
-    } catch {}
+    } catch { }
 
     const ctrl = new AbortController();
     abortRef.current = ctrl;
@@ -46,8 +46,8 @@ const Cars = () => {
         params: {
           page,
           limit: LIMIT,
-          search: search || undefined,     
-          category: category || undefined,           
+          search: search || undefined,
+          category: category || undefined,
         },
         signal: ctrl.signal,
       });
@@ -77,7 +77,7 @@ const Cars = () => {
       clearTimeout(t);
       try {
         abortRef.current?.abort();
-      } catch {}
+      } catch { }
     };
   }, [fetchCars]);
 
@@ -95,6 +95,7 @@ const Cars = () => {
   const handleClearFilters = () => {
     setSearchInput("");
     setSearch("");
+    setCategoryInput("");
     setCategory("");
     setPage(1);
   };
@@ -156,7 +157,7 @@ const Cars = () => {
                   Category
                 </label>
                 <select
-                  value={category}
+                  value={categoryInput}
                   onChange={(e) => {
                     setCategoryInput(e.target.value);
                   }}
@@ -224,11 +225,10 @@ const Cars = () => {
               <button
                 onClick={handlePrevPage}
                 disabled={page <= 1 || loading}
-                className={`px-3 py-1.5 rounded-lg text-sm ${
-                  page <= 1 || loading
+                className={`px-3 py-1.5 rounded-lg text-sm ${page <= 1 || loading
                     ? "bg-white/5 text-gray-500 cursor-not-allowed"
                     : "bg-white/10 text-gray-100 hover:bg-white/20"
-                } transition`}
+                  } transition`}
               >
                 Prev
               </button>
@@ -240,11 +240,10 @@ const Cars = () => {
               <button
                 onClick={handleNextPage}
                 disabled={page >= pages || loading}
-                className={`px-3 py-1.5 rounded-lg text-sm ${
-                  page >= pages || loading
+                className={`px-3 py-1.5 rounded-lg text-sm ${page >= pages || loading
                     ? "bg-white/5 text-gray-500 cursor-not-allowed"
                     : "bg-white/10 text-gray-100 hover:bg-white/20"
-                } transition`}
+                  } transition`}
               >
                 Next
               </button>
