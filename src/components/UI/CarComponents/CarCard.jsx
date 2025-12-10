@@ -99,7 +99,7 @@ const CarCard = ({
           ))}
         </div>
 
-        <div className="mt-auto pt-4">
+        <div className="mt-auto pb-4">
           <button
             onClick={() => onBook(car)}
             className={`${styles.bookButton} hover:shadow-md`}
